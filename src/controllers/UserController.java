@@ -1,32 +1,35 @@
 package controllers;
 
-import models.UserModel;
 import provider.ConnectionProvider;
+
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UserController {
-    
-   public static UserModel currentUser;
+import dao.UserDAO;
+
+public class UserController implements UserDAO{
+	
+	Connection connection = ConnectionProvider.connection;
    
-   public ResultSet loginUser (String id, String password) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+   public ResultSet getUser (String id, String password) throws SQLException {
+        Statement statement = connection.createStatement();
         ResultSet result;
         
-        result = statement.executeQuery("SELECT * FROM users WHERE id LIKE '" + id + "' AND password LIKE '" + password + "';");
+        result = statement.executeQuery("SELECT * FROM users WHERE id = '" + id + "' AND password = '" + password + "';");
         
         return result;
     }
    
     public void addUser (String id, String fullname, String password) throws SQLException {
         int idNumber = Integer.parseInt(id);
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
         statement.executeUpdate("INSERT INTO users VALUES("+idNumber+", '"+fullname+"', '"+password+"', "+null+")");
     }
     
-    public ResultSet getUserById (String id) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+    public ResultSet getUser (String id) throws SQLException {
+        Statement statement = connection.createStatement();
         ResultSet result;
         
         result = statement.executeQuery("SELECT * FROM users WHERE id LIKE '" + id + "';");
@@ -34,11 +37,7 @@ public class UserController {
         return result;
     }
   
-   public static UserModel setGlobalUser (String name, String lastname, String id, String specialty, int price) {
-       UserModel user = new UserModel(name, lastname, id, specialty, price, null);
-       currentUser = user;
-       return user;
-   }
+  
 
    
    

@@ -2,12 +2,27 @@ package screens;
 
 import controllers.PatientController;
 import javax.swing.*;
-import javax.swing.JOptionPane;
 import java.awt.*;
 
 public class AddPatient extends javax.swing.JInternalFrame {
 
     PatientController controller = new PatientController();
+    
+    // Components
+    private JButton addPatientCancel;
+    private JButton addPatientSubmit;
+    private JLabel nameLabel;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel7;
+    private JScrollPane jScrollPane1;
+    private JTextArea patientHistory;
+    private JTextField patientId;
+    private JTextField patientLastname;
+    private JTextField patientName;
+    private JRadioButton radioFemale;
+    private JRadioButton radioMan;
 
     public AddPatient() {
         initComponents();
@@ -28,7 +43,6 @@ public class AddPatient extends javax.swing.JInternalFrame {
 
         patientName = new JTextField();
         nameLabel = new JLabel();
-        nameLabel.setText("Name");
         addPatientSubmit = new JButton();
         addPatientCancel = new JButton();
         jScrollPane1 = new JScrollPane();
@@ -43,19 +57,22 @@ public class AddPatient extends javax.swing.JInternalFrame {
         jLabel7 = new JLabel();
 
         nameLabel.setText("Name");
-
-        addPatientSubmit.setBackground(new Color(0, 153, 153));
-        addPatientSubmit.setForeground(new Color(255, 255, 255));
         addPatientSubmit.setText("Add");
+        jLabel2.setText("Medic History");
+        jLabel4.setText("ID");
+        radioMan.setText("Man");
+        radioFemale.setText("Female");
+        jLabel3.setText("Lastname");
+        addPatientCancel.setText("Cancel");
+        
         addPatientSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addPatientSubmitActionPerformed(evt);
             }
         });
 
-        addPatientCancel.setBackground(new Color(153, 153, 153));
-        addPatientCancel.setForeground(new Color(255, 255, 255));
-        addPatientCancel.setText("Cancel");
+
+        
         addPatientCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addPatientCancelActionPerformed(evt);
@@ -66,15 +83,7 @@ public class AddPatient extends javax.swing.JInternalFrame {
         patientHistory.setRows(5);
         jScrollPane1.setViewportView(patientHistory);
 
-        jLabel2.setText("Medic History");
-
-        jLabel4.setText("ID");
-
-        radioMan.setText("Man");
-
-        radioFemale.setText("Female");
-
-        jLabel3.setText("Lastname");
+        
 
         jLabel7.setFont(new Font("Segoe UI", 0, 24)); // NOI18N
         jLabel7.setText("Add Patient");
@@ -161,19 +170,6 @@ public class AddPatient extends javax.swing.JInternalFrame {
 
 
 
-    private javax.swing.JButton addPatientCancel;
-    private javax.swing.JButton addPatientSubmit;
-    private javax.swing.JLabel nameLabel;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea patientHistory;
-    private javax.swing.JTextField patientId;
-    private javax.swing.JTextField patientLastname;
-    private javax.swing.JTextField patientName;
-    private javax.swing.JRadioButton radioFemale;
-    private javax.swing.JRadioButton radioMan;
+
    
 }

@@ -16,7 +16,7 @@ public class UserValidator {
     
     public static boolean userExists (String id) throws UserAlreadyExistsException, SQLException {
         UserController userController = new UserController();
-        ResultSet result = userController.getUserById(id);
+        ResultSet result = userController.getUser(id);
             if (result.next()) {
                 throw new UserAlreadyExistsException(id);
             }

@@ -4,17 +4,21 @@ import utils.Constants;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import exceptions.DBException;
+import models.UserModel;
+
 
 public class ConnectionProvider {
-    public static Connection getConnection() {
+
+	public static Connection connection;
+	
+    public static void setConnection() throws DBException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(Constants.CONNECTION_PATH, Constants.DB_USER, Constants.DB_PASSWORD);
-            return connection;
+            connection = DriverManager.getConnection(Constants.CONNECTION_PATH, Constants.DB_USER, Constants.DB_PASSWORD);
         }
         catch (Exception e) {
-        	System.out.println(e);
-            return null;
+        	throw new DBException(e.getMessage());
         }
     }
 }

@@ -1,18 +1,24 @@
 package controllers;
 
 import provider.ConnectionProvider;
+
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class PatientController {
+import dao.PatientDAO;
+
+public class PatientController implements PatientDAO{
+	
+	Connection connection = ConnectionProvider.connection;
     
     public void addPatient (String id, String name, String lastname, String history, String gender) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
         statement.executeUpdate("INSERT INTO patients VALUES('"+id+"', '"+lastname+"', '"+name+"', '"+history+"', '"+gender+"')");
     }
     public ResultSet getAllPatients (String id) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
          ResultSet result;
         
          result = statement.executeQuery("SELECT * FROM patients");
@@ -38,7 +44,7 @@ public class PatientController {
      }
     
      public ResultSet getPatientById (String id) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
         ResultSet result;
         
         result = statement.executeQuery("SELECT * FROM patients WHERE ID LIKE '" + id +"%'");
@@ -48,7 +54,7 @@ public class PatientController {
      
      
      public ResultSet fullSearch (String id, String name, String lastname) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
         ResultSet result;
         
         result = statement.executeQuery("SELECT * FROM patients WHERE ID LIKE '" + id +"%' AND Name LIKE '" + name +"%' AND Lastname LIKE '" + lastname + "%'");
@@ -57,7 +63,7 @@ public class PatientController {
     }
      
       public ResultSet getPatientByName (String name, String lastname) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
         ResultSet result;
         
         if (name.isEmpty() && !lastname.isEmpty()) {
@@ -75,7 +81,7 @@ public class PatientController {
       
      
       public void editPatient (String id, String name,  String lastname, String history) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
         statement.executeUpdate("UPDATE patients SET lastname='" + lastname + "', name='" + name + "', history='" + history + "' WHERE (ID = '" + id + "')");
         
     }

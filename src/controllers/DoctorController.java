@@ -7,9 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import dao.DoctorDAO;
 
-public class DoctorController {
-    Connection connection = ConnectionProvider.getConnection();
+
+public class DoctorController implements DoctorDAO{
+    Connection connection = ConnectionProvider.connection;
+    
      public ResultSet getAllDoctors () throws SQLException {
         Statement statement = connection.createStatement();
          ResultSet result;
@@ -20,7 +23,7 @@ public class DoctorController {
     }
      
      public void addDoctor (String id, String name, String lastname, String password, String specialty, int price) throws SQLException {
-        Statement statement = ConnectionProvider.getConnection().createStatement();
+        Statement statement = connection.createStatement();
         statement.executeUpdate("INSERT INTO users (`ID`, `Name`, `Lastname`, `Password`, `Specialty`, `Price`) VALUES('"+id+"', '"+name+"', '"+lastname+"', '"+password+"', '"+ specialty +"', "+price+")");
     }
     
@@ -34,7 +37,7 @@ public class DoctorController {
         return result;
     }
 
-    public ResultSet getDoctorById (String id) throws SQLException {
+    public ResultSet getDoctor (String id) throws SQLException {
         Statement statement = connection.createStatement();
          ResultSet result;
         
@@ -43,7 +46,7 @@ public class DoctorController {
         return result;
     }
 
-     public ResultSet getDoctorByName (String name, String lastname) throws SQLException {
+     public ResultSet getDoctor (String name, String lastname) throws SQLException {
         Statement statement = connection.createStatement();
          ResultSet result;
         

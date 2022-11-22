@@ -7,42 +7,39 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 
-public class ScheduleController {
+import dao.ScheduleDAO;
 
-  Connection connection = ConnectionProvider.getConnection();
+public class ScheduleController implements ScheduleDAO{
+
+  Connection connection = ConnectionProvider.connection;
+  
 
      public ResultSet getAvailableScheduleBySpecialty (String specialty) throws SQLException {
         Statement statement = connection.createStatement();
-         ResultSet result;
-        
-         result = statement.executeQuery("SELECT * FROM schedule WHERE specialty LIKE '" + specialty +"%' AND patient IS NULL");
+         ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE specialty LIKE '" + specialty +"%' AND patient IS NULL");
         
         return result;
     }
      
      public ResultSet getScheduleByDoctor (String doctor) throws SQLException {
         Statement statement = connection.createStatement();
-         ResultSet result;
-        
-         result = statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor +"%'");
+         ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor +"%'");
         
         return result;
     }
      
           public ResultSet getFreeScheduleByDoctor (String doctor) throws SQLException {
         Statement statement = connection.createStatement();
-         ResultSet result;
+         ResultSet result= statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor +"%' AND patient IS NULL");
         
-         result = statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor +"%' AND patient IS NULL");
         
         return result;
     }
      
       public ResultSet getScheduleByDoctorByDates (String doctor, LocalDateTime startDate, LocalDateTime endDate) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet result;
+        ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor + "%' AND date BETWEEN '"+ startDate +"' and '"+ endDate +"'");
         
-        result = statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor + "%' AND date BETWEEN '"+ startDate +"' and '"+ endDate +"'");
         
         return result;
     }

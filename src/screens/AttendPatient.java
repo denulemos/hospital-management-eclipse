@@ -5,7 +5,7 @@ import controllers.PatientController;
 import models.PatientModel;
 import validators.FieldValidator;
 import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -21,24 +21,24 @@ public class AttendPatient extends javax.swing.JInternalFrame {
   
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        patientId2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        patientId = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        resultTable = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        historyPatient = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        patientName = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        patientLastname = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel3 = new JLabel();
+        patientId2 = new JTextField();
+        jLabel5 = new JLabel();
+        patientId = new JTextField();
+        jLabel1 = new JLabel();
+        jButton1 = new JButton();
+        jScrollPane2 = new JScrollPane();
+        resultTable = new JTable();
+        jScrollPane1 = new JScrollPane();
+        historyPatient = new JTextArea();
+        jLabel2 = new JLabel();
+        jButton2 = new JButton();
+        jButton3 = new JButton();
+        patientName = new JTextField();
+        jLabel4 = new JLabel();
+        patientLastname = new JTextField();
+        jLabel6 = new JLabel();
+        jLabel7 = new JLabel();
 
         jLabel3.setText("jLabel3");
 
@@ -96,8 +96,7 @@ public class AttendPatient extends javax.swing.JInternalFrame {
 
         jLabel2.setText("History");
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 153));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+
         jButton2.setText("Save Changes");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,8 +104,7 @@ public class AttendPatient extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(153, 153, 153));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+
         jButton3.setText("Cancel");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

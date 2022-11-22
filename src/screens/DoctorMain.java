@@ -8,6 +8,15 @@ import javax.swing.*;
 public class DoctorMain extends javax.swing.JFrame {
     
     AttendPatient attendPatient;
+    
+    // components
+    private JMenu LogOutMenu;
+    private JMenu ScheduleMenu;
+    private JMenu jMenu2;
+    private JMenu jMenu3;
+    private JMenuBar jMenuBar1;
+    private JMenuItem jMenuItem1;
+    private JMenuItem jMenuItem2;
 
     public DoctorMain() {
         initComponents();
@@ -27,15 +36,13 @@ public class DoctorMain extends javax.swing.JFrame {
         jMenu3 = new JMenu();
         LogOutMenu = new JMenu();
 
-        jMenuItem1.setText("jMenuItem1");
 
-        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBackground(UIManager.getDefaults().getColor("Button.default.hoverBorderColor"));
 
         ScheduleMenu.setText("Schedule");
-        ScheduleMenu.setToolTipText("");
+
         ScheduleMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ScheduleMenuMouseClicked(evt);
@@ -131,8 +138,6 @@ public class DoctorMain extends javax.swing.JFrame {
 
     public static void main(String args[]) {
       
-       
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new DoctorMain().setVisible(true);
@@ -141,12 +146,6 @@ public class DoctorMain extends javax.swing.JFrame {
     }
 
   
-    private JMenu LogOutMenu;
-    private JMenu ScheduleMenu;
-    private JMenu jMenu2;
-    private JMenu jMenu3;
-    private JMenuBar jMenuBar1;
-    private JMenuItem jMenuItem1;
-    private JMenuItem jMenuItem2;
+   
 
 }

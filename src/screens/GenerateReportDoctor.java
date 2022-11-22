@@ -5,14 +5,26 @@ import controllers.UserController;
 import validators.DateValidator;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 
 
 public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
     ScheduleController schedController = new ScheduleController();
     DateValidator dateValidator = new DateValidator();
+    
+    // Init components
+    private JLabel TotalAmount;
+    private JLabel amountGain;
+    private JButton jButton1;
+    private JButton jButton2;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JScrollPane jScrollPane2;
+    private JTable resultTable;
    
     public GenerateReportDoctor() {
         initComponents();
@@ -21,38 +33,34 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
   
     private void initComponents() {
 
-        jLabel6 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        resultTable = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        TotalAmount = new javax.swing.JLabel();
-       
-        amountGain = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new JLabel();
+        jLabel1 = new JLabel();
+        jLabel2 = new JLabel();
+        jButton1 = new JButton();
+        jButton2 = new JButton();
+        jScrollPane2 = new JScrollPane();
+        resultTable = new JTable();
+        jLabel3 = new JLabel();
+        TotalAmount = new JLabel();
+        amountGain = new JLabel();
+        jLabel7 = new JLabel();
 
         jLabel6.setText("Register Doctor");
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-
         jLabel1.setText("From");
-
         jLabel2.setText("To");
-
         jButton1.setText("Generate Report");
-        jButton1.setBackground(new java.awt.Color(0, 204, 204));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Generate Report");
+        jButton2.setText("Cancel");
+        
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+ 
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cancel");
-        jButton2.setBackground(new java.awt.Color(153, 153, 153));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -77,7 +85,7 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(resultTable);
 
-        jLabel7.setText("Generate Report");
+        
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -185,16 +193,6 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
 
 
-    private javax.swing.JLabel TotalAmount;
-    private javax.swing.JLabel amountGain;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable resultTable;
+
   
 }

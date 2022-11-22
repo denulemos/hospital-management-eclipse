@@ -3,15 +3,35 @@ package screens;
 
 import controllers.PatientController;
 import models.PatientModel;
+import utils.Colors;
 import validators.FieldValidator;
 import java.sql.ResultSet;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 
 
 public class ScheduleAdmin extends javax.swing.JInternalFrame {
 
     PatientController controller = new PatientController();
+    
+    // Components
+    private JTextArea historyPatient;
+    private JButton jButton1;
+    private JButton jButton2;
+    private JButton jButton3;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel5;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JScrollPane jScrollPane1;
+    private JScrollPane jScrollPane2;
+    private JTextField patientId;
+    private JTextField patientId2;
+    private JTextField patientLastname;
+    private JTextField patientName;
+    private JTable resultTable;
     
    
     public ScheduleAdmin() {
@@ -21,34 +41,46 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
   
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        patientId2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        patientId = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        resultTable = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        historyPatient = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        patientName = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        patientLastname = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel3 = new JLabel();
+        patientId2 = new JTextField();
+        jLabel5 = new JLabel();
+        patientId = new JTextField();
+        jLabel1 = new JLabel();
+        jButton1 = new JButton();
+        jScrollPane2 = new JScrollPane();
+        resultTable = new JTable();
+        jScrollPane1 = new JScrollPane();
+        historyPatient = new JTextArea();
+        jLabel2 = new JLabel();
+        jButton2 = new JButton();
+        jButton3 = new JButton();
+        patientName = new JTextField();
+        jLabel4 = new JLabel();
+        patientLastname = new JTextField();
+        jLabel6 = new JLabel();
+        jLabel7 = new JLabel();
 
         jLabel3.setText("jLabel3");
-
+        jLabel5.setText("Patient Name");
+        jLabel1.setText("Patient ID");
+        jButton1.setText("Search");
+        
         patientId2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+            	 PatientModel user = new PatientModel((String)resultTable.getModel().getValueAt(0,2), (String)resultTable.getModel().getValueAt(0,1), (String)resultTable.getModel().getValueAt(0,0), historyPatient.getText(), null);
+                 
+                 try {
+                     controller.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
+                     JOptionPane.showMessageDialog(null, "Patient updated");
+                 }
+                 
+                 catch (Exception e) {
+                     JOptionPane.showMessageDialog(null, "There was an error updating the patient: " + e);
+                 }
             }
         });
 
-        jLabel5.setText("Patient Name");
+        
 
         patientId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,14 +88,36 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Patient ID");
-
-        jButton1.setBackground(new java.awt.Color(0, 153, 153));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Search");
+        
+        
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+            	try {
+                    FieldValidator.validateField(patientId.getText());
+                    FieldValidator.validateField(patientName.getText());
+                    FieldValidator.validateField(patientLastname.getText());
+                    PatientModel user = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(), null, null);
+                    ResultSet result =controller.searchPatient(user.getId(), user.getName(), user.getLastname());
+                    
+                    if (result.next()) {
+                        DefaultTableModel model = (DefaultTableModel)resultTable.getModel();
+                            String [] row = {result.getString(3), result.getString(2), result.getString(1)};
+                            model.addRow(row);
+                            historyPatient.setText(result.getString(4));
+                    }
+                    
+                    else {
+                        JOptionPane.showMessageDialog(null, "User not found");
+                        return;
+                    }
+                    
+                }
+                
+                catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(),
+        						"Error", JOptionPane.ERROR_MESSAGE);
+                }
+                
             }
         });
 
@@ -96,17 +150,24 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 
         jLabel2.setText("History");
 
-        jButton2.setBackground(new java.awt.Color(0, 153, 153));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+
         jButton2.setText("Save Changes");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+            	 PatientModel user = new PatientModel((String)resultTable.getModel().getValueAt(0,2), (String)resultTable.getModel().getValueAt(0,1), (String)resultTable.getModel().getValueAt(0,0), historyPatient.getText(), null);
+                 
+                 try {
+                     controller.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
+                     JOptionPane.showMessageDialog(null, "Patient updated");
+                 }
+                 
+                 catch (Exception e) {
+                     JOptionPane.showMessageDialog(null, "There was an error updating the patient: " + e);
+                 }
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(153, 153, 153));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+
         jButton3.setText("Cancel");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,50 +270,9 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
         pack();
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        try {
-            FieldValidator.validateField(patientId.getText());
-            FieldValidator.validateField(patientName.getText());
-            FieldValidator.validateField(patientLastname.getText());
-            PatientModel user = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(), null, null);
-            ResultSet result =controller.searchPatient(user.getId(), user.getName(), user.getLastname());
-            
-            if (result.next()) {
-                DefaultTableModel model = (DefaultTableModel)resultTable.getModel();
-                    String [] row = {result.getString(3), result.getString(2), result.getString(1)};
-                    model.addRow(row);
-                    historyPatient.setText(result.getString(4));
-            }
-            
-            else {
-                JOptionPane.showMessageDialog(null, "User not found");
-                return;
-            }
-            
-        }
-        
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),
-						"Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
-        
-    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        PatientModel user = new PatientModel((String)resultTable.getModel().getValueAt(0,2), (String)resultTable.getModel().getValueAt(0,1), (String)resultTable.getModel().getValueAt(0,0), historyPatient.getText(), null);
-        
-        try {
-            controller.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
-            JOptionPane.showMessageDialog(null, "Patient updated");
-        }
-        
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "There was an error updating the patient: " + e);
-        }
-        
-    }
+
+
 
    
 
@@ -261,23 +281,6 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
     }
 
    
-    private javax.swing.JTextArea historyPatient;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField patientId;
-    private javax.swing.JTextField patientId2;
-    private javax.swing.JTextField patientLastname;
-    private javax.swing.JTextField patientName;
-    private javax.swing.JTable resultTable;
+
 
 }
