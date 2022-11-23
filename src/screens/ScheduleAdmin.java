@@ -1,286 +1,286 @@
-
 package screens;
 
-import controllers.PatientController;
-import models.PatientModel;
-import utils.Colors;
+import controllers.DoctorController;
+import controllers.ScheduleController;
+import validators.DateValidator;
 import validators.FieldValidator;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.*;
-
 
 public class ScheduleAdmin extends javax.swing.JInternalFrame {
 
-    PatientController controller = new PatientController();
-    
-    // Components
-    private JTextArea historyPatient;
-    private JButton jButton1;
-    private JButton jButton2;
-    private JButton jButton3;
-    private JLabel jLabel1;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JScrollPane jScrollPane1;
-    private JScrollPane jScrollPane2;
-    private JTextField patientId;
-    private JTextField patientId2;
-    private JTextField patientLastname;
-    private JTextField patientName;
-    private JTable resultTable;
-    
-   
-    public ScheduleAdmin() {
-        initComponents();
-    }
+	DoctorController doctorController = new DoctorController();
+	ScheduleController scheduleController = new ScheduleController();
 
-  
-    private void initComponents() {
+	private JButton getFreeAppointments;
+	private JButton jButton3;
+	private JButton jButton4;
+	private JButton jButton5;
+	private JLabel jLabel3;
+	private JLabel jLabel4;
+	private JScrollPane jScrollPane2;
+	private JTextField patientId;
+	private JTable resultTable;
+	private JTextField specialtyField;
+	private JLabel dayLabel;
+	private JLabel monthLabel;
+	private JLabel yearLabel;
+	private JTextField dayField;
+	private JTextField yearField;
+	private JTextField monthField;
+	private JLabel hourLabel;
+	private JTextField textField;
+	private JLabel minuteLabel;
+	private JTextField minuteField;
 
-        jLabel3 = new JLabel();
-        patientId2 = new JTextField();
-        jLabel5 = new JLabel();
-        patientId = new JTextField();
-        jLabel1 = new JLabel();
-        jButton1 = new JButton();
-        jScrollPane2 = new JScrollPane();
-        resultTable = new JTable();
-        jScrollPane1 = new JScrollPane();
-        historyPatient = new JTextArea();
-        jLabel2 = new JLabel();
-        jButton2 = new JButton();
-        jButton3 = new JButton();
-        patientName = new JTextField();
-        jLabel4 = new JLabel();
-        patientLastname = new JTextField();
-        jLabel6 = new JLabel();
-        jLabel7 = new JLabel();
+	public ScheduleAdmin() {
+		initComponents();
+	}
 
-        jLabel3.setText("jLabel3");
-        jLabel5.setText("Patient Name");
-        jLabel1.setText("Patient ID");
-        jButton1.setText("Search");
-        
-        patientId2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	 PatientModel user = new PatientModel((String)resultTable.getModel().getValueAt(0,2), (String)resultTable.getModel().getValueAt(0,1), (String)resultTable.getModel().getValueAt(0,0), historyPatient.getText(), null);
-                 
-                 try {
-                     controller.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
-                     JOptionPane.showMessageDialog(null, "Patient updated");
-                 }
-                 
-                 catch (Exception e) {
-                     JOptionPane.showMessageDialog(null, "There was an error updating the patient: " + e);
-                 }
-            }
-        });
+	private void initComponents() {
 
-        
+		jButton4 = new javax.swing.JButton();
+		getFreeAppointments = new javax.swing.JButton();
+		jScrollPane2 = new javax.swing.JScrollPane();
+		resultTable = new javax.swing.JTable();
+		jLabel4 = new javax.swing.JLabel();
+		patientId = new javax.swing.JTextField();
+		jLabel3 = new javax.swing.JLabel();
+		jButton3 = new javax.swing.JButton();
+		jButton5 = new javax.swing.JButton();
+		specialtyField = new javax.swing.JTextField();
+		specialtyField.setToolTipText("Example: General");
 
-        patientId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
+		jButton4.setText("Search Appointment");
 
-        
-        
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	try {
-                    FieldValidator.validateField(patientId.getText());
-                    FieldValidator.validateField(patientName.getText());
-                    FieldValidator.validateField(patientLastname.getText());
-                    PatientModel user = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(), null, null);
-                    ResultSet result =controller.searchPatient(user.getId(), user.getName(), user.getLastname());
-                    
-                    if (result.next()) {
-                        DefaultTableModel model = (DefaultTableModel)resultTable.getModel();
-                            String [] row = {result.getString(3), result.getString(2), result.getString(1)};
-                            model.addRow(row);
-                            historyPatient.setText(result.getString(4));
-                    }
-                    
-                    else {
-                        JOptionPane.showMessageDialog(null, "User not found");
-                        return;
-                    }
-                    
-                }
-                
-                catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(),
-        						"Error", JOptionPane.ERROR_MESSAGE);
-                }
-                
-            }
-        });
+		getFreeAppointments.setText("Search Free Appointments");
 
-        resultTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+		getFreeAppointments.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				getFreeAppointmentsActionPerformed(evt);
+			}
+		});
 
-            },
-            new String [] {
-                "Name", "Lastname", "ID "
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
+		resultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        resultTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(resultTable);
+		}, new String[] { "ID", "Doctor", "Patient", "Date", "Taken", "Price", "Specialty" }) {
+			boolean[] canEdit = new boolean[] { false, false, true, false, true, false, false };
 
-        historyPatient.setColumns(20);
-        historyPatient.setRows(5);
-        jScrollPane1.setViewportView(historyPatient);
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit[columnIndex];
+			}
+		});
+		jScrollPane2.setViewportView(resultTable);
 
-        jLabel2.setText("History");
+		jLabel4.setText("Specialty");
 
+		jLabel3.setText("Patient ID");
 
-        jButton2.setText("Save Changes");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	 PatientModel user = new PatientModel((String)resultTable.getModel().getValueAt(0,2), (String)resultTable.getModel().getValueAt(0,1), (String)resultTable.getModel().getValueAt(0,0), historyPatient.getText(), null);
-                 
-                 try {
-                     controller.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
-                     JOptionPane.showMessageDialog(null, "Patient updated");
-                 }
-                 
-                 catch (Exception e) {
-                     JOptionPane.showMessageDialog(null, "There was an error updating the patient: " + e);
-                 }
-            }
-        });
+		jButton3.setText("Cancel");
+		jButton3.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButton3ActionPerformed(evt);
+			}
+		});
 
+		jButton5.setText("Search Patient Appointments");
+		jButton5.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButton5ActionPerformed(evt);
+			}
+		});
 
-        jButton3.setText("Cancel");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+		dayLabel = new JLabel("Day");
 
-        patientName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
+		monthLabel = new JLabel("Month");
 
-        jLabel4.setText("Patient Name");
+		yearLabel = new JLabel("Year");
 
-        patientLastname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
+		dayField = new JTextField();
+		dayField.setToolTipText("Example: 10");
+		dayField.setColumns(10);
 
-        jLabel6.setText("Patient Lastname");
+		yearField = new JTextField();
+		yearField.setToolTipText("Example: Year");
+		yearField.setColumns(10);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel7.setText("Patient");
+		monthField = new JTextField();
+		monthField.setToolTipText("Example: May");
+		monthField.setColumns(10);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel1)
-                            .addComponent(patientId, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(27, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(patientName, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(patientLastname, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addGap(34, 34, 34)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(patientId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(patientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(patientLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(29, 29, 29)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
-        );
+		hourLabel = new JLabel("Hour (24 hs)");
 
-        pack();
-    }
+		textField = new JTextField();
+		textField.setToolTipText("Example: 21");
+		textField.setColumns(10);
 
+		minuteLabel = new JLabel("Minute");
 
+		minuteField = new JTextField();
+		minuteField.setToolTipText("Example: 20");
+		minuteField.setColumns(10);
 
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(layout.createSequentialGroup().addContainerGap()
+						.addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE).addContainerGap())
+				.addGroup(layout.createSequentialGroup().addGap(39).addGroup(layout
+						.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(jButton3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(getFreeAppointments, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)
+						.addComponent(jLabel3)
+						.addComponent(patientId, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
+						.addComponent(jButton5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addPreferredGap(ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
+								.addComponent(minuteLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+								.addGap(18).addComponent(minuteField, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createSequentialGroup()
+										.addComponent(yearLabel, GroupLayout.PREFERRED_SIZE, 49,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(yearField,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addComponent(jLabel4)
+								.addComponent(specialtyField, GroupLayout.PREFERRED_SIZE, 183,
+										GroupLayout.PREFERRED_SIZE)
+								.addGroup(layout.createSequentialGroup()
+										.addComponent(dayLabel, GroupLayout.PREFERRED_SIZE, 49,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(dayField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createSequentialGroup()
+										.addComponent(monthLabel, GroupLayout.PREFERRED_SIZE, 49,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(monthField,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(layout.createSequentialGroup().addComponent(hourLabel)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(textField,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGap(494)));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
+				.addGap(43)
+				.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
+						.addComponent(jLabel4).addPreferredGap(ComponentPlacement.RELATED).addComponent(specialtyField,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup().addComponent(jLabel3).addGap(6)
+								.addComponent(patientId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(jButton5)
+										.addComponent(dayLabel).addComponent(dayField, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(monthLabel).addComponent(
+								monthField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(yearLabel).addComponent(
+								yearField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addGap(24)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(hourLabel).addComponent(
+								textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(minuteLabel).addComponent(
+								minuteField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)))
+						.addGroup(layout.createSequentialGroup().addComponent(getFreeAppointments)
+								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(jButton3)))
+				.addPreferredGap(ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+				.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE).addGap(16)));
+		getContentPane().setLayout(layout);
 
+		pack();
+	}
 
-   
+	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+		this.setVisible(false);
+	}
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        this.setVisible(false);
-    }
+	private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
+		DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
+		try {
+			FieldValidator.validateField(patientId.getText());
+			model.setRowCount(0);
+			ResultSet results = scheduleController.getScheduleByPatient(patientId.getText());
+			if (results.next()) {
+				do {
 
-   
+					String[] row = { results.getString(1), results.getString(2), results.getString(3),
+							results.getString(4), results.getString(5), results.getString(6), results.getString(7) };
+					model.addRow(row);
 
+				} while (results.next());
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	private void getFreeAppointmentsActionPerformed(java.awt.event.ActionEvent evt) {
+		DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
+		model.setRowCount(0);
+		String specialty = specialtyField.getText();
+
+		LocalDateTime time = scheduleAdminPicker.getDateTimePermissive();
+		if (!specialty.isEmpty()) {
+			try {
+				ResultSet results = doctorController.getDoctorBySpecialty(specialty);
+				if (results.next()) {
+					do {
+						if (results.getString(5).equals('0')) {
+							String[] row = { results.getString(1), results.getString(2), results.getString(3),
+									results.getString(4), results.getString(5), results.getString(6),
+									results.getString(7) };
+							model.addRow(row);
+						}
+					} while (results.next());
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		if (!(time == null)) {
+			try {
+				ResultSet results = scheduleController.getScheduleByDoctorSingleDate(time);
+				if (results.next()) {
+					do {
+						if (results.getString(5).equals('0')) {
+							if (specialty.isEmpty()) {
+								String[] row = { results.getString(1), results.getString(2), results.getString(3),
+										results.getString(4), results.getString(5), results.getString(6),
+										results.getString(7) };
+								model.addRow(row);
+							} else {
+								if (results.getString(7).equals(specialty)) {
+									String[] row = { results.getString(1), results.getString(2), results.getString(3),
+											results.getString(4), results.getString(5), results.getString(6),
+											results.getString(7) };
+									model.addRow(row);
+								}
+							}
+
+						}
+					} while (results.next());
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
 
 }
