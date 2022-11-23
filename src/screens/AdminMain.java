@@ -7,21 +7,22 @@ import javax.swing.*;
 public class AdminMain extends javax.swing.JFrame {
 	
 	
-	 private JMenu jMenu1= new JMenu();
-	 private JMenu jMenu2= new JMenu();
-	 private JMenu jMenu3= new JMenu();
-	 private JMenu jMenu4= new JMenu();
+	 private JMenu usersMenu= new JMenu();
+	 private JMenu patientsMenu= new JMenu();
+	 private JMenu scheduleMenu= new JMenu();
+	 private JMenu reportMenu= new JMenu();
 	 private JMenuBar jMenuBar1 = new JMenuBar();
-	 private JMenuItem jMenuItem1= new JMenuItem();
-	 private JMenuItem jMenuItem2= new JMenuItem();
+	 private JMenuItem addDoctorMenu= new JMenuItem();
+	 private JMenuItem addPatientMenu= new JMenuItem();
 	 private JMenuItem jMenuItem4 = new JMenuItem();
-	 private JMenuItem jMenuItem7= new JMenuItem();
+	 private JMenuItem addAdminMenu= new JMenuItem();
 	 private JMenu logoutMenu= new JMenu();
 
     AddPatient addPatient;
     RegisterDoctorScreen registerDoctorScreen;
     RegisterConsultantScreen registerAdmin;
     AttendPatient editPatient;
+    ScheduleAdmin schedule;
 
     public AdminMain() {
         initComponents();
@@ -34,10 +35,12 @@ public class AdminMain extends javax.swing.JFrame {
         registerDoctorScreen = new RegisterDoctorScreen();
         registerAdmin = new RegisterConsultantScreen();
         editPatient = new AttendPatient();
-        add(addPatient);
-        add(registerDoctorScreen);
-        add(registerAdmin);
-        add(editPatient);
+        schedule = new ScheduleAdmin();
+        getContentPane().add(addPatient);
+        getContentPane().add(registerDoctorScreen);
+        getContentPane().add(registerAdmin);
+        getContentPane().add(editPatient);
+        getContentPane().add(schedule);
     }
 
    
@@ -48,63 +51,55 @@ public class AdminMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 102, 102));
 
-        jMenu1.setText("Users");
+        usersMenu.setText("Users");
 
-        jMenuItem1.setText("Add new Doctor");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        addDoctorMenu.setText("Add new Doctor");
+        addDoctorMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        usersMenu.add(addDoctorMenu);
 
-        jMenuItem7.setText("Add new Admin");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        addAdminMenu.setText("Add new Admin");
+        addAdminMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem7);
+        usersMenu.add(addAdminMenu);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(usersMenu);
 
-        jMenu2.setText("Patients");
+        patientsMenu.setText("Patients");
 
-        jMenuItem2.setText("Add new Patient");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        addPatientMenu.setText("Add new Patient");
+        addPatientMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        patientsMenu.add(addPatientMenu);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(patientsMenu);
 
-        jMenu3.setText("Schedule");
-        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+        scheduleMenu.setText("Schedule");
+        scheduleMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu3MouseClicked(evt);
             }
         });
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenu3);
+       
+        jMenuBar1.add(scheduleMenu);
 
-        jMenu4.setText("Generate Report");
-        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+        reportMenu.setText("Generate Report");
+        reportMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu4MouseClicked(evt);
             }
         });
-        jMenu4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenu4);
+       
+        jMenuBar1.add(reportMenu);
 
         logoutMenu.setText("Logout");
         logoutMenu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -163,6 +158,7 @@ public class AdminMain extends javax.swing.JFrame {
         registerDoctorScreen.setVisible(false);
         registerAdmin.setVisible(false);
          editPatient.setVisible(false);
+         schedule.setVisible(true);
     }
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {
@@ -170,6 +166,7 @@ public class AdminMain extends javax.swing.JFrame {
         registerDoctorScreen.setVisible(false);
         registerAdmin.setVisible(false);
          editPatient.setVisible(false);
+         schedule.setVisible(true);
     }
     public static void main(String args[]) {
       

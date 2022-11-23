@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class main extends javax.swing.JFrame {
 	DoctorMain doctorMain;
@@ -21,9 +23,8 @@ public class main extends javax.swing.JFrame {
 	Connection connection;
 
 	private JTextField idField;
-	private JLabel jLabel1;
-	private JLabel jLabel2;
-	private JLabel jLabel7;
+	private JLabel idLabel;
+	private JLabel passLabel;
 	private JButton loginButton;
 	private JPasswordField passwordField;
 
@@ -51,14 +52,12 @@ public class main extends javax.swing.JFrame {
 		passwordField = new JPasswordField();
 		idField = new JTextField();
 		loginButton = new JButton();
-		jLabel1 = new JLabel();
-		jLabel2 = new JLabel();
-		jLabel7 = new JLabel();
+		idLabel = new JLabel();
+		passLabel = new JLabel();
 
 		loginButton.setText("Login");
-		jLabel1.setText("ID");
-		jLabel2.setText("Password");
-		jLabel7.setText("Medical Administration System");
+		idLabel.setText("ID");
+		passLabel.setText("Password");
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,28 +74,34 @@ public class main extends javax.swing.JFrame {
 		});
 
 		GroupLayout layout = new GroupLayout(getContentPane());
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addGap(169)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(passLabel)
+						.addComponent(idLabel)
+						.addComponent(loginButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(idField)
+						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(123, Short.MAX_VALUE))
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addGap(134)
+					.addComponent(idLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(idField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(13)
+					.addComponent(passLabel)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(35)
+					.addComponent(loginButton)
+					.addContainerGap(146, Short.MAX_VALUE))
+		);
 		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout
-				.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup().addGap(124, 124, 124).addComponent(jLabel7))
-						.addGroup(layout.createSequentialGroup().addGap(169, 169, 169)
-								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-										.addComponent(jLabel2).addComponent(jLabel1)
-										.addComponent(loginButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addComponent(idField).addComponent(passwordField, GroupLayout.PREFERRED_SIZE,
-												206, GroupLayout.PREFERRED_SIZE))))
-				.addContainerGap(123, Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout
-				.createSequentialGroup().addGap(52, 52, 52).addComponent(jLabel7).addGap(68, 68, 68)
-				.addComponent(jLabel1).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-				.addComponent(idField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGap(13, 13, 13).addComponent(jLabel2)
-				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-				.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-						GroupLayout.PREFERRED_SIZE)
-				.addGap(35, 35, 35).addComponent(loginButton).addContainerGap(146, Short.MAX_VALUE)));
 
 		pack();
 	}
@@ -117,10 +122,8 @@ public class main extends javax.swing.JFrame {
 
 				if (UserValidator.isDoctor(user)) {
 					doctorMain.setVisible(true);
-					new main().setVisible(false);
 				} else {
 					adminMain.setVisible(true);
-					new main().setVisible(false);
 				}
 				JOptionPane.showMessageDialog(null, "Welcome " + user.getName() + " " + user.getLastname() + "!");
 			} else {

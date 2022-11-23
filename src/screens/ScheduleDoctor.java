@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
 public class ScheduleDoctor extends javax.swing.JInternalFrame {
 
 	ScheduleController schedController = new ScheduleController();
-	private JButton jButton1;
-	private JButton jButton3;
-	private JButton jButton4;
-	private JButton jButton5;
+	private JButton addAppointmentButton;
+	private JButton saveButton;
+	private JButton cancelButton;
+	private JButton refreshButton;
 	private JList<String> jList2;
-	private JScrollPane jScrollPane2;
+	private JScrollPane tableResults;
 	private JScrollPane jScrollPane3;
 	private JTable resultTable;
 	private JTextField dayField;
@@ -57,12 +57,12 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 
 		jScrollPane3 = new JScrollPane();
 		jList2 = new JList<>();
-		jScrollPane2 = new JScrollPane();
+		tableResults = new JScrollPane();
 		resultTable = new JTable();
-		jButton1 = new JButton();
-		jButton3 = new JButton();
-		jButton4 = new JButton();
-		jButton5 = new JButton();
+		addAppointmentButton = new JButton();
+		saveButton = new JButton();
+		cancelButton = new JButton();
+		refreshButton = new JButton();
 
 		jList2.setModel(new AbstractListModel<String>() {
 			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -102,31 +102,31 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 				componentShown(evt);
 			}
 		});
-		jScrollPane2.setViewportView(resultTable);
+		tableResults.setViewportView(resultTable);
 
-		jButton1.setText("Add Appointment");
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
+		addAppointmentButton.setText("Add Appointment");
+		addAppointmentButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
 			}
 		});
 
-		jButton3.setText("Save Changes");
-		jButton3.addActionListener(new java.awt.event.ActionListener() {
+		saveButton.setText("Save Changes");
+		saveButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton3ActionPerformed(evt);
 			}
 		});
 
-		jButton4.setText("Cancel");
-		jButton4.addActionListener(new java.awt.event.ActionListener() {
+		cancelButton.setText("Cancel");
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton4ActionPerformed(evt);
 			}
 		});
 
-		jButton5.setText("Refresh");
-		jButton5.addActionListener(new java.awt.event.ActionListener() {
+		refreshButton.setText("Refresh");
+		refreshButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton5ActionPerformed(evt);
 			}
@@ -167,7 +167,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 				.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
 						.addGap(22)
 						.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+								.addComponent(addAppointmentButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
 								.addGroup(layout.createSequentialGroup()
 										.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
 												.addComponent(dayField, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
@@ -181,11 +181,11 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 														GroupLayout.PREFERRED_SIZE))))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
-								.addComponent(jButton3, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+								.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jButton5, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+								.addComponent(refreshButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jButton4, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+								.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
 								.addGroup(layout.createSequentialGroup()
 										.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
 												.addComponent(yearField, 0, 0, Short.MAX_VALUE)
@@ -204,7 +204,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 																		GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 																.addComponent(minuteLabel, GroupLayout.PREFERRED_SIZE,
 																		49, GroupLayout.PREFERRED_SIZE))))))
-						.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(jScrollPane2,
+						.addGroup(layout.createSequentialGroup().addContainerGap().addComponent(tableResults,
 								GroupLayout.PREFERRED_SIZE, 652, GroupLayout.PREFERRED_SIZE)))
 				.addContainerGap(46, Short.MAX_VALUE)));
 		layout.setVerticalGroup(layout.createParallelGroup(Alignment.TRAILING).addGroup(layout.createSequentialGroup()
@@ -224,9 +224,9 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 						.addComponent(minuteField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE))
 				.addGap(37)
-				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(jButton1).addComponent(jButton3)
-						.addComponent(jButton5).addComponent(jButton4))
-				.addGap(18).addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(addAppointmentButton).addComponent(saveButton)
+						.addComponent(refreshButton).addComponent(cancelButton))
+				.addGap(18).addComponent(tableResults, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
 				.addContainerGap()));
 		getContentPane().setLayout(layout);
 
@@ -272,7 +272,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 			String taken = (String) resultTable.getValueAt(i, 4);
 
 			try {
-				ScheduleValidator.validateTake(patient, taken);
+				//ScheduleValidator.validateTake(patient, taken);
 				PatientValidator.checkIfUserExists(patient);
 				schedController.updateSchedule(id, patient, price, taken);
 			} catch (Exception e) {

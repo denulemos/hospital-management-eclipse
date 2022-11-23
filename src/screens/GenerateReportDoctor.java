@@ -2,9 +2,12 @@ package screens;
 
 import controllers.ScheduleController;
 import controllers.UserController;
+import statics.UserStatic;
 import validators.DateValidator;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.time.Month;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.GroupLayout.Alignment;
@@ -14,38 +17,34 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
 	ScheduleController schedController = new ScheduleController();
 	DateValidator dateValidator = new DateValidator();
-
-	private JLabel TotalAmount;
 	private JLabel amountGain;
 
-	private JButton jButton1;
-	private JButton jButton2;
-	private JLabel jLabel1;
-	private JLabel jLabel2;
-	private JLabel jLabel3;
-	private JLabel jLabel6;
+	private JButton generateReportButton;
+	private JButton cancelButton;
+	private JLabel fromLabel;
+	private JLabel toLabel;
 	private JScrollPane jScrollPane2;
 	private JTable resultTable;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JLabel lblNewLabel_5;
-	private JLabel lblNewLabel_6;
-	private JLabel lblNewLabel_7;
-	private JLabel lblNewLabel_8;
-	private JLabel lblNewLabel_9;
+	private JTextField fromDayInput;
+	private JTextField fromMonthInput;
+	private JTextField fromYearInput;
+	private JTextField fromHourInput;
+	private JTextField fromMinuteInput;
+	private JLabel dayLabel;
+	private JLabel monthLabel;
+	private JLabel yearLabel;
+	private JLabel hourLabel;
+	private JLabel minuteLabel;
+	private JTextField toDayInput;
+	private JTextField toMonthInput;
+	private JTextField toYearInput;
+	private JTextField toHourInput;
+	private JTextField toMinuteInput;
+	private JLabel lblDay;
+	private JLabel lblMonth;
+	private JLabel lblYear;
+	private JLabel lblHour;
+	private JLabel lblMinute;
 
 	public GenerateReportDoctor() {
 		initComponents();
@@ -53,34 +52,28 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
 	private void initComponents() {
 
-		jLabel6 = new JLabel();
-		jLabel1 = new JLabel();
-		jLabel2 = new JLabel();
-		jButton1 = new JButton();
-		jButton2 = new JButton();
+		fromLabel = new JLabel();
+		toLabel = new JLabel();
+		generateReportButton = new JButton();
+		cancelButton = new JButton();
 		jScrollPane2 = new JScrollPane();
 		resultTable = new JTable();
-		jLabel3 = new JLabel();
-		TotalAmount = new JLabel();
 		amountGain = new JLabel();
 
-		jLabel6.setText("Register Doctor");
-		jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+		fromLabel.setText("From");
 
-		jLabel1.setText("From");
+		toLabel.setText("To");
 
-		jLabel2.setText("To");
+		generateReportButton.setText("Generate Report");
 
-		jButton1.setText("Generate Report");
-
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
+		generateReportButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
 			}
 		});
 
-		jButton2.setText("Cancel");
-		jButton2.addActionListener(new java.awt.event.ActionListener() {
+		cancelButton.setText("Cancel");
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton2ActionPerformed(evt);
 			}
@@ -96,186 +89,190 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 			}
 		});
 		jScrollPane2.setViewportView(resultTable);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		
-		lblNewLabel = new JLabel("Day");
-		
-		lblNewLabel_1 = new JLabel("Month");
-		
-		lblNewLabel_2 = new JLabel("Year");
-		
-		lblNewLabel_3 = new JLabel("Hour");
-		
-		lblNewLabel_4 = new JLabel("Minute");
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		
-		lblNewLabel_5 = new JLabel("New label");
-		
-		lblNewLabel_6 = new JLabel("New label");
-		
-		lblNewLabel_7 = new JLabel("New label");
-		
-		lblNewLabel_8 = new JLabel("New label");
-		
-		lblNewLabel_9 = new JLabel("New label");
+
+		fromDayInput = new JTextField();
+		fromDayInput.setColumns(10);
+
+		fromMonthInput = new JTextField();
+		fromMonthInput.setColumns(10);
+
+		fromYearInput = new JTextField();
+		fromYearInput.setColumns(10);
+
+		fromHourInput = new JTextField();
+		fromHourInput.setColumns(10);
+
+		fromMinuteInput = new JTextField();
+		fromMinuteInput.setColumns(10);
+
+		dayLabel = new JLabel("Day");
+
+		monthLabel = new JLabel("Month");
+
+		yearLabel = new JLabel("Year");
+
+		hourLabel = new JLabel("Hour");
+
+		minuteLabel = new JLabel("Minute");
+
+		toDayInput = new JTextField();
+		toDayInput.setColumns(10);
+
+		toMonthInput = new JTextField();
+		toMonthInput.setColumns(10);
+
+		toYearInput = new JTextField();
+		toYearInput.setColumns(10);
+
+		toHourInput = new JTextField();
+		toHourInput.setColumns(10);
+
+		toMinuteInput = new JTextField();
+		toMinuteInput.setColumns(10);
+
+		lblDay = new JLabel("Day");
+
+		lblMonth = new JLabel("Month");
+
+		lblYear = new JLabel("Year");
+
+		lblHour = new JLabel("Hour");
+
+		lblMinute = new JLabel("Minute");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(jLabel3)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(amountGain)
-						.addComponent(TotalAmount))
-					.addGap(195)
-					.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(244))
-				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(83)
-							.addComponent(jLabel1))
-						.addGroup(layout.createSequentialGroup()
-							.addContainerGap(73, Short.MAX_VALUE)
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
-									.addGroup(Alignment.LEADING, layout.createSequentialGroup()
-										.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblNewLabel_7, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-									.addGroup(Alignment.LEADING, layout.createSequentialGroup()
-										.addGroup(layout.createParallelGroup(Alignment.LEADING)
-											.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(532)
-										.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-											.addComponent(lblNewLabel_6, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))))
-								.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-									.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-										.addGroup(Alignment.LEADING, layout.createSequentialGroup()
-											.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addGap(100)
-											.addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
-											.addComponent(lblNewLabel_9, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(layout.createSequentialGroup().addContainerGap(16, Short.MAX_VALUE).addComponent(amountGain)
+						.addGap(195)
+						.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addGap(244))
+				.addGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup().addGap(83).addComponent(fromLabel))
+						.addGroup(layout.createSequentialGroup().addContainerGap(73, Short.MAX_VALUE).addGroup(layout
+								.createParallelGroup(Alignment.TRAILING)
+								.addComponent(dayLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+								.addComponent(monthLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+								.addComponent(yearLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+								.addComponent(hourLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+								.addComponent(minuteLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(layout.createParallelGroup(Alignment.TRAILING).addGroup(layout
+										.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(layout
+												.createSequentialGroup().addComponent(fromYearInput,
+														GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE,
+														Short.MAX_VALUE)
+												.addComponent(lblYear, GroupLayout.PREFERRED_SIZE, 49,
+														GroupLayout.PREFERRED_SIZE))
 										.addGroup(layout.createSequentialGroup()
-											.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 530, Short.MAX_VALUE)
-											.addComponent(lblNewLabel_8, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addGap(4)))
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jLabel2)
-						.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
-					.addGap(24))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGap(14)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jLabel2)
-						.addComponent(jLabel1))
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(18)
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel)
+												.addGroup(layout.createParallelGroup(Alignment.LEADING)
+														.addComponent(fromDayInput, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(fromMonthInput, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addGap(532)
+												.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+														.addComponent(lblDay, GroupLayout.PREFERRED_SIZE, 49,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblMonth, GroupLayout.PREFERRED_SIZE, 49,
+																GroupLayout.PREFERRED_SIZE))))
+										.addGroup(layout.createSequentialGroup().addGroup(layout
+												.createParallelGroup(Alignment.LEADING)
+												.addGroup(layout.createSequentialGroup()
+														.addComponent(fromMinuteInput, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addGap(100)
+														.addComponent(generateReportButton, GroupLayout.PREFERRED_SIZE,
+																136, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 136,
+																GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.RELATED, 150,
+																Short.MAX_VALUE)
+														.addComponent(lblMinute, GroupLayout.PREFERRED_SIZE, 49,
+																GroupLayout.PREFERRED_SIZE))
+												.addGroup(layout.createSequentialGroup()
+														.addComponent(fromHourInput, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.RELATED, 532,
+																Short.MAX_VALUE)
+														.addComponent(lblHour, GroupLayout.PREFERRED_SIZE, 49,
+																GroupLayout.PREFERRED_SIZE)))
+												.addPreferredGap(ComponentPlacement.RELATED)))
+								.addGap(4)))
+						.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addComponent(toDayInput, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+								.addComponent(toLabel)
+								.addComponent(toMonthInput, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+								.addComponent(toYearInput, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+								.addComponent(toHourInput, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+								.addComponent(toMinuteInput, GroupLayout.PREFERRED_SIZE, 86,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(24)));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
+				.addGap(14)
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(toLabel).addComponent(fromLabel))
+				.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
+						.addGap(18)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(dayLabel)
 								.addGroup(layout.createSequentialGroup()
-									.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNewLabel_1))))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_2))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_3))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_4)
-								.addComponent(jButton1)
-								.addComponent(jButton2))
-							.addGap(35)
-							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(layout.createSequentialGroup()
-									.addComponent(amountGain)
-									.addComponent(TotalAmount)
-									.addGap(28)
-									.addComponent(jLabel3))
-								.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(layout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_5))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_6))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_7))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_8))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_9))))
-					.addContainerGap(23, Short.MAX_VALUE))
-		);
+										.addComponent(fromDayInput, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(fromMonthInput, GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(monthLabel))))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(fromYearInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(yearLabel))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(fromHourInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(hourLabel))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(fromMinuteInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(minuteLabel).addComponent(generateReportButton)
+								.addComponent(cancelButton))
+						.addGap(35)
+						.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(layout.createSequentialGroup().addComponent(amountGain).addGap(28))
+								.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 177,
+										GroupLayout.PREFERRED_SIZE)))
+						.addGroup(layout.createSequentialGroup().addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(toDayInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblDay))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(toMonthInput, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblMonth))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(toYearInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblYear))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(toHourInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblHour))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(toMinuteInput, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblMinute))))
+				.addContainerGap(27, Short.MAX_VALUE)));
 		getContentPane().setLayout(layout);
 
 		pack();
@@ -286,12 +283,25 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-		LocalDateTime from = fromDate.getDateTimePermissive();
-		LocalDateTime to = toDate.getDateTimePermissive();
-
-		String doctor = UserController.currentUser.getId();
+		String doctor = UserStatic.currentUser.getId();
 		try {
-			if (DateValidator.isDateFilled(from) && DateValidator.isDateFilled(to)) {
+			DateValidator validator = new DateValidator();
+			// Set From
+			int day = validator.dayValidator(fromDayInput.getText());
+			int hour = validator.hourValidator(fromHourInput.getText());
+			int minute = validator.minuteValidator(fromMinuteInput.getText());
+			Month month = validator.monthValidator(fromMonthInput.getText());
+			int year = validator.yearValidator(fromYearInput.getText());
+			LocalDateTime from = validator.dateTimeConverter(month, day, year, hour, minute);
+			
+			// Set To
+			 day = validator.dayValidator(toDayInput.getText());
+			 hour = validator.hourValidator(toHourInput.getText());
+			 minute = validator.minuteValidator(toMinuteInput.getText());
+			 month = validator.monthValidator(toMonthInput.getText());
+			 year = validator.yearValidator(toYearInput.getText());
+			LocalDateTime to = validator.dateTimeConverter(month, day, year, hour, minute);
+			
 				int amount = 0;
 				DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
 				model.setRowCount(0);
@@ -307,7 +317,6 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 					} while (results.next());
 				}
 				amountGain.setText("Total = " + Integer.toString(amount) + "$");
-			}
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);

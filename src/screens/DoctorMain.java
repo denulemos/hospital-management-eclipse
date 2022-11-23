@@ -8,34 +8,35 @@ import javax.swing.*;
 public class DoctorMain extends javax.swing.JFrame {
     
     AttendPatient attendPatient;
+    ScheduleDoctor schedule;
+    GenerateReportDoctor report;
     
     // components
     private JMenu LogOutMenu;
     private JMenu ScheduleMenu;
-    private JMenu jMenu2;
-    private JMenu jMenu3;
-    private JMenuBar jMenuBar1;
-    private JMenuItem jMenuItem1;
-    private JMenuItem jMenuItem2;
+    private JMenu reportMenu;
+    private JMenu patientMenu;
+    private JMenuBar menuDoctor;
 
     public DoctorMain() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         attendPatient = new AttendPatient();
-        add(attendPatient);
+        schedule = new ScheduleDoctor();
+        report = new GenerateReportDoctor();
+        getContentPane().add(attendPatient);
+        getContentPane().add(schedule);
+        getContentPane().add(report);
     }
 
 
     private void initComponents() {
 
-        jMenuItem1 = new JMenuItem();
-        jMenuItem2 = new JMenuItem();
-        jMenuBar1 = new JMenuBar();
+        menuDoctor = new JMenuBar();
         ScheduleMenu = new JMenu();
-        jMenu2 = new JMenu();
-        jMenu3 = new JMenu();
+        reportMenu = new JMenu();
+        patientMenu = new JMenu();
         LogOutMenu = new JMenu();
-
 
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -48,38 +49,26 @@ public class DoctorMain extends javax.swing.JFrame {
                 ScheduleMenuMouseClicked(evt);
             }
         });
-        ScheduleMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(ScheduleMenu);
+       
+        menuDoctor.add(ScheduleMenu);
 
-        jMenu2.setText("Generate Report");
-        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+        reportMenu.setText("Generate Report");
+        reportMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu2MouseClicked(evt);
             }
         });
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenu2);
+        
+        menuDoctor.add(reportMenu);
 
-        jMenu3.setText("Attend Patient");
-        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+        patientMenu.setText("Attend Patient");
+        patientMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu3MouseClicked(evt);
             }
         });
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenu3);
+       
+        menuDoctor.add(patientMenu);
 
         LogOutMenu.setBackground(UIManager.getDefaults().getColor("Actions.Red"));
         LogOutMenu.setText("Log Out");
@@ -88,14 +77,10 @@ public class DoctorMain extends javax.swing.JFrame {
                 LogOutMenuMouseClicked(evt);
             }
         });
-        LogOutMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(LogOutMenu);
+       
+        menuDoctor.add(LogOutMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuDoctor);
 
         javax.swing.GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,7 +98,7 @@ public class DoctorMain extends javax.swing.JFrame {
 
 
 
-    private void LogOutMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogOutMenuMouseClicked
+    private void LogOutMenuMouseClicked(java.awt.event.MouseEvent evt) {
         int option = JOptionPane.showConfirmDialog(null, "Do you really want to Log Out?", "Select", JOptionPane.YES_NO_OPTION);
             if (option == 0) {
                 System.exit(0);
@@ -122,17 +107,23 @@ public class DoctorMain extends javax.swing.JFrame {
 
 
 
-    private void ScheduleMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ScheduleMenuMouseClicked
-        attendPatient.setVisible(false);      
+    private void ScheduleMenuMouseClicked(java.awt.event.MouseEvent evt) {
+    	 attendPatient.setVisible(false);
+         schedule.setVisible(true);
+         report.setVisible(false);
     }
 
 
-    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {
         attendPatient.setVisible(false);
+        schedule.setVisible(false);
+        report.setVisible(true);
     }
 
-    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {
         attendPatient.setVisible(true);
+        schedule.setVisible(false);
+        report.setVisible(false);
     }
 
 
