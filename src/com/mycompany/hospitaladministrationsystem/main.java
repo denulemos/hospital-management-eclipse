@@ -1,11 +1,11 @@
 package com.mycompany.hospitaladministrationsystem;
 
 import screens.DoctorMain;
+import statics.MessageStatic;
 import statics.UserStatic;
 import screens.AdminMain;
 import controllers.UserController;
 import exceptions.DBException;
-import exceptions.EmptyFieldException;
 import models.UserModel;
 import provider.ConnectionProvider;
 import validators.FieldValidator;
@@ -13,13 +13,10 @@ import validators.UserValidator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import javax.swing.*;
-import java.awt.event.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class main extends javax.swing.JFrame {
-	DoctorMain doctorMain;
-	AdminMain adminMain;
 	Connection connection;
 
 	private JTextField idField;
@@ -39,10 +36,8 @@ public class main extends javax.swing.JFrame {
 		try {
 			stablishConnection();
 			initComponents();
-			doctorMain = new DoctorMain();
-			adminMain = new AdminMain();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			MessageStatic.generateErrorMessage(e.getMessage());
 		}
 
 	}
@@ -59,17 +54,12 @@ public class main extends javax.swing.JFrame {
 		idLabel.setText("ID");
 		passLabel.setText("Password");
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		passwordField.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				actionPerformed(evt);
-			}
-		});
 
 		loginButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				loginButtonActionPerformed(evt);
+				loginButtonActionPerformed();
 			}
 		});
 
@@ -106,7 +96,7 @@ public class main extends javax.swing.JFrame {
 		pack();
 	}
 
-	private void loginButtonActionPerformed(ActionEvent evt) {
+	private void loginButtonActionPerformed() {
 		String id = idField.getText();
 		String password = String.valueOf(passwordField.getPassword());
 
@@ -119,19 +109,21 @@ public class main extends javax.swing.JFrame {
 				UserModel user;
 				user = UserStatic.setGlobalUser(result.getString(2), result.getString(3), result.getString(1),
 						result.getString(5), Integer.parseInt(result.getString(6)));
-
+				
 				if (UserValidator.isDoctor(user)) {
+					DoctorMain doctorMain = new DoctorMain();
 					doctorMain.setVisible(true);
 				} else {
+					AdminMain adminMain = new AdminMain();
 					adminMain.setVisible(true);
 				}
-				JOptionPane.showMessageDialog(null, "Welcome " + user.getName() + " " + user.getLastname() + "!");
+				MessageStatic.generateMessage("Welcome " + user.getName() + " " + user.getLastname() + "!");
 			} else {
-				JOptionPane.showMessageDialog(null, "User not found");
+				MessageStatic.generateErrorMessage("User not found");
 			}
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			MessageStatic.generateErrorMessage(e.getMessage());
 		}
 
 	}

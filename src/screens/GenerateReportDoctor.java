@@ -284,39 +284,63 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		String doctor = UserStatic.currentUser.getId();
+		int hour, minute, day, year;
+		Month month;
+
 		try {
 			DateValidator validator = new DateValidator();
 			// Set From
-			int day = validator.dayValidator(fromDayInput.getText());
-			int hour = validator.hourValidator(fromHourInput.getText());
-			int minute = validator.minuteValidator(fromMinuteInput.getText());
-			Month month = validator.monthValidator(fromMonthInput.getText());
-			int year = validator.yearValidator(fromYearInput.getText());
+			 day = validator.dayValidator(fromDayInput.getText());
+			 month = validator.monthValidator(fromMonthInput.getText());
+			 year = validator.yearValidator(fromYearInput.getText());
+
+			if (fromHourInput.getText().isEmpty()) {
+				hour = 00;
+			} else {
+				hour = validator.hourValidator(fromHourInput.getText());
+			}
+
+			if (fromMinuteInput.getText().isEmpty()) {
+				minute = 00;
+			} else {
+				minute = validator.minuteValidator(fromMinuteInput.getText());
+			}
+
 			LocalDateTime from = validator.dateTimeConverter(month, day, year, hour, minute);
-			
+
 			// Set To
-			 day = validator.dayValidator(toDayInput.getText());
-			 hour = validator.hourValidator(toHourInput.getText());
-			 minute = validator.minuteValidator(toMinuteInput.getText());
-			 month = validator.monthValidator(toMonthInput.getText());
-			 year = validator.yearValidator(toYearInput.getText());
+			day = validator.dayValidator(toDayInput.getText());
+			month = validator.monthValidator(toMonthInput.getText());
+			year = validator.yearValidator(toYearInput.getText());
+
+			if (fromHourInput.getText().isEmpty()) {
+				hour = 00;
+			} else {
+				hour = validator.hourValidator(toHourInput.getText());
+			}
+
+			if (fromMinuteInput.getText().isEmpty()) {
+				minute = 00;
+			} else {
+				minute = validator.minuteValidator(toMinuteInput.getText());
+			}
 			LocalDateTime to = validator.dateTimeConverter(month, day, year, hour, minute);
-			
-				int amount = 0;
-				DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
-				model.setRowCount(0);
-				ResultSet results = schedController.getScheduleByDoctorByDates(doctor, from, to);
-				if (results.next()) {
-					do {
-						if (results.getString(5).equals("1")) {
-							amount += results.getInt(6);
-						}
-						String[] row = { results.getString(1), results.getString(3), results.getString(4),
-								results.getString(5), results.getString(6) };
-						model.addRow(row);
-					} while (results.next());
-				}
-				amountGain.setText("Total = " + Integer.toString(amount) + "$");
+
+			int amount = 0;
+			DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
+			model.setRowCount(0);
+			ResultSet results = schedController.getScheduleByDoctorByDates(doctor, from, to);
+			if (results.next()) {
+				do {
+					if (results.getString(5).equals("1")) {
+						amount += results.getInt(6);
+					}
+					String[] row = { results.getString(1), results.getString(3), results.getString(4),
+							results.getString(5), results.getString(6) };
+					model.addRow(row);
+				} while (results.next());
+			}
+			amountGain.setText("Total = " + Integer.toString(amount) + "$");
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);

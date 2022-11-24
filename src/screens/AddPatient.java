@@ -1,6 +1,8 @@
 package screens;
 
 import controllers.PatientController;
+import models.PatientModel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -67,7 +69,7 @@ public class AddPatient extends javax.swing.JInternalFrame {
         
         addPatientSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addPatientSubmitActionPerformed(evt);
+                addPatientSubmitActionPerformed();
             }
         });
 
@@ -75,7 +77,7 @@ public class AddPatient extends javax.swing.JInternalFrame {
         
         addPatientCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addPatientCancelActionPerformed(evt);
+                addPatientCancelActionPerformed();
             }
         });
 
@@ -151,11 +153,12 @@ public class AddPatient extends javax.swing.JInternalFrame {
         pack();
     }
 
-    private void addPatientSubmitActionPerformed(java.awt.event.ActionEvent evt) {
+    private void addPatientSubmitActionPerformed() {
         String gender = setGender();
         
         try {
-            controller.addPatient(patientId.getText(), patientName.getText(), patientLastname.getText(), patientHistory.getText(), gender);
+        	PatientModel patient = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(), patientHistory.getText(), gender);
+            controller.addPatient(patient);
             JOptionPane.showMessageDialog(null, "The patient has been registered succesfully");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Couldn't add new Patient: " + ex);
@@ -164,7 +167,7 @@ public class AddPatient extends javax.swing.JInternalFrame {
         
     }
 
-    private void addPatientCancelActionPerformed(java.awt.event.ActionEvent evt) {
+    private void addPatientCancelActionPerformed() {
         this.setVisible(false);
     }
 

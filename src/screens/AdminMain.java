@@ -23,6 +23,7 @@ public class AdminMain extends javax.swing.JFrame {
     RegisterConsultantScreen registerAdmin;
     AttendPatient editPatient;
     ScheduleAdmin schedule;
+    GenerateReportAdmin report;
 
     public AdminMain() {
         initComponents();
@@ -36,11 +37,13 @@ public class AdminMain extends javax.swing.JFrame {
         registerAdmin = new RegisterConsultantScreen();
         editPatient = new AttendPatient();
         schedule = new ScheduleAdmin();
+        report = new GenerateReportAdmin();
         getContentPane().add(addPatient);
         getContentPane().add(registerDoctorScreen);
         getContentPane().add(registerAdmin);
         getContentPane().add(editPatient);
         getContentPane().add(schedule);
+        getContentPane().add(report);
     }
 
    
@@ -137,6 +140,7 @@ public class AdminMain extends javax.swing.JFrame {
         registerDoctorScreen.setVisible(true);
         registerAdmin.setVisible(false);
         editPatient.setVisible(false);
+        report.setVisible(false);
     }
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +148,7 @@ public class AdminMain extends javax.swing.JFrame {
         registerDoctorScreen.setVisible(false);
         registerAdmin.setVisible(false);
          editPatient.setVisible(false);
+         report.setVisible(false);
     }
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,6 +156,7 @@ public class AdminMain extends javax.swing.JFrame {
         registerDoctorScreen.setVisible(false);
         registerAdmin.setVisible(true);
          editPatient.setVisible(false);
+         report.setVisible(false);
     }
 
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {
@@ -159,6 +165,7 @@ public class AdminMain extends javax.swing.JFrame {
         registerAdmin.setVisible(false);
          editPatient.setVisible(false);
          schedule.setVisible(true);
+         report.setVisible(false);
     }
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {
@@ -166,7 +173,8 @@ public class AdminMain extends javax.swing.JFrame {
         registerDoctorScreen.setVisible(false);
         registerAdmin.setVisible(false);
          editPatient.setVisible(false);
-         schedule.setVisible(true);
+         schedule.setVisible(false);
+         report.setVisible(true);
     }
     public static void main(String args[]) {
       

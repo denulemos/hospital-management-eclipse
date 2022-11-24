@@ -2,15 +2,14 @@ package screens;
 
 import controllers.DoctorController;
 import controllers.ScheduleController;
-import validators.DateValidator;
-import validators.FieldValidator;
+import exceptions.EmptyFieldException;
+import statics.MessageStatic;
+import validators.*;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.*;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.*;
 
@@ -18,8 +17,6 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 
 	DoctorController doctorController = new DoctorController();
 	ScheduleController scheduleController = new ScheduleController();
-
-	private JButton getFreeAppointments;
 	private JButton cancelButton;
 	private JButton searchPatientButton;
 	private JLabel patientLabel;
@@ -44,8 +41,6 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 	}
 
 	private void initComponents() {
-
-		getFreeAppointments = new JButton();
 		jScrollPane2 = new JScrollPane();
 		resultTable = new JTable();
 		specialtyLabel = new JLabel();
@@ -56,17 +51,10 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 		specialtyField = new JTextField();
 		specialtyField.setToolTipText("Example: General");
 
-		getFreeAppointments.setText("Search  Appointments");
-
-		getFreeAppointments.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				getFreeAppointmentsActionPerformed(evt);
-			}
-		});
-
 		resultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
 		}, new String[] { "ID", "Doctor", "Patient", "Date", "Taken", "Price", "Specialty" }) {
+			private static final long serialVersionUID = 1L;
 			boolean[] canEdit = new boolean[] { false, false, true, false, true, false, false };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -82,14 +70,14 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 		cancelButton.setText("Cancel");
 		cancelButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton3ActionPerformed(evt);
+				cancelButtonActionPerformed();
 			}
 		});
 
 		searchPatientButton.setText("Search Patient Appointments");
 		searchPatientButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton5ActionPerformed(evt);
+				searchPatientButtonActionPerformed();
 			}
 		});
 
@@ -125,27 +113,40 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 		
 		JButton btnSaveChanges = new JButton();
 		btnSaveChanges.setText("Save Changes");
+		btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnSaveChangesActionPerformed();
+			}
+		});
 		
 		JButton freeForSpecialtyButton = new JButton("Search Free Appointments for Specialty");
+		freeForSpecialtyButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				freeForSpecialtyButtonActionPerformed();
+			}
+		});
 		
 		JButton freeForDateButton = new JButton("Search Free Appointments for Date");
+		freeForDateButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				freeForDateButtonActionPerformed();
+			}
+		});
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.TRAILING)
+			layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
+					.addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 1116, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(layout.createSequentialGroup()
 					.addGap(39)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(cancelButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(getFreeAppointments, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(patientLabel)
-						.addComponent(patientId, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-						.addComponent(searchPatientButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+					.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(patientLabel, Alignment.LEADING)
+						.addComponent(patientId, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
+						.addComponent(searchPatientButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
 					.addGroup(layout.createParallelGroup(Alignment.LEADING)
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(minuteLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
@@ -176,10 +177,12 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 								.addComponent(freeForDateButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(freeForSpecialtyButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(363))
-				.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+				.addGroup(layout.createSequentialGroup()
 					.addGap(29)
 					.addComponent(btnSaveChanges, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(802, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(cancelButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(747))
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
@@ -203,29 +206,25 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 								.addComponent(dayField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(freeForDateButton))))
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(monthLabel)
+						.addComponent(monthField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(yearLabel)
+						.addComponent(yearField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(24)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(hourLabel)
+						.addComponent(hourField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(monthLabel)
-								.addComponent(monthField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(yearLabel)
-								.addComponent(yearField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(24)
-							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(hourLabel)
-								.addComponent(hourField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(minuteLabel)
-								.addComponent(minuteField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(getFreeAppointments)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(cancelButton)))
-					.addPreferredGap(ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-					.addComponent(btnSaveChanges)
+						.addComponent(minuteLabel)
+						.addComponent(minuteField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnSaveChanges)
+						.addComponent(cancelButton))
 					.addGap(18)
 					.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
 					.addGap(16))
@@ -235,16 +234,17 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 		pack();
 	}
 
-	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cancelButtonActionPerformed() {
 		this.setVisible(false);
 	}
 
-	private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void searchPatientButtonActionPerformed() {
 		DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
 		try {
-			FieldValidator.validateField(patientId.getText());
+			String patient = patientId.getText();
+			FieldValidator.validateField(patient);
 			model.setRowCount(0);
-			ResultSet results = scheduleController.getScheduleByPatient(patientId.getText());
+			ResultSet results = scheduleController.getScheduleByPatient(patient);
 			if (results.next()) {
 				do {
 
@@ -255,22 +255,41 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 				} while (results.next());
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			MessageStatic.generateErrorMessage(e.getMessage());
 		}
 
 	}
+	
+	public void btnSaveChangesActionPerformed() {
+		ScheduleController schedule = new ScheduleController();
+		for (int i = 0; i < resultTable.getRowCount(); i++) {
+			String id = (String) resultTable.getValueAt(i, 0);
+			String patient = (String) resultTable.getValueAt(i, 2);
+			int price = Integer.valueOf((String) resultTable.getValueAt(i, 5));
+			String taken = (String) resultTable.getValueAt(i, 4);
+			try {
+				schedule.updateSchedule(id, patient, price, taken);
+			} catch (Exception e) {
+				MessageStatic.generateErrorMessage(e.getMessage());
+			}
 
-	private void getFreeAppointmentsActionPerformed(java.awt.event.ActionEvent evt) {
+		}
+
+		MessageStatic.generateMessage("Appointments Updated");
+		
+	}
+	
+	
+	public void freeForSpecialtyButtonActionPerformed() {
+		
 		DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
-		DateValidator validator = new DateValidator();
+		model.setRowCount(0);
 		ScheduleController schedule = new ScheduleController();
 		String id;
-		model.setRowCount(0);
 		String specialty = specialtyField.getText();
 		try {
 
 			if (!specialty.isEmpty()) {
-
 				ResultSet results = doctorController.getDoctorBySpecialty(specialty);
 				ResultSet doctorResult;
 				if (results.next()) {
@@ -291,47 +310,61 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 				}
 
 			}
-			if (!(dayField.getText().isEmpty())) {
-				int hour, minute;
-				int day = validator.dayValidator(dayField.getText());
-				Month month = validator.monthValidator(monthField.getText());
-				int year = validator.yearValidator(yearField.getText());
-				if (!(hourField.getText().isEmpty())) {
-					 hour = 00;
-					 minute = 00;
-				}
-				else {
-					 hour = validator.hourValidator(hourField.getText());
-					 minute = validator.minuteValidator(minuteField.getText());
-				}
-				
-				LocalDateTime time = validator.dateTimeConverter(month, day, year, hour, minute);
-				ResultSet results = scheduleController.getScheduleByDoctorSingleDate(time);
-				if (results.next()) {
-					do {
-						if (results.getString(5).equals('0')) {
-							if (specialty.isEmpty()) {
-								String[] row = { results.getString(1), results.getString(2), results.getString(3),
-										results.getString(4), results.getString(5), results.getString(6),
-										results.getString(7) };
-								model.addRow(row);
-							} else {
-								if (results.getString(7).equals(specialty)) {
-									String[] row = { results.getString(1), results.getString(2), results.getString(3),
-											results.getString(4), results.getString(5), results.getString(6),
-											results.getString(7) };
-									model.addRow(row);
-								}
-							}
-
-						}
-					} while (results.next());
-				}
-
+			else {
+				throw new EmptyFieldException();
 			}
+		
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			MessageStatic.generateErrorMessage(e.getMessage());
 		}
+		
+	}
+	
+	public void freeForDateButtonActionPerformed() {
+		DateValidator validator = new DateValidator();
+		DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
+		model.setRowCount(0);
+		ResultSet results;
+		try {
+		if (!(dayField.getText().isEmpty())) {
+			int hour, minute;
+			int day = validator.dayValidator(dayField.getText());
+			Month month = validator.monthValidator(monthField.getText());
+			int year = validator.yearValidator(yearField.getText());
+			if (hourField.getText().isEmpty() || minuteField.getText().isEmpty()) {
+				 hour = 00;
+				 minute = 00;
+				 LocalDate time = validator.dateConverter(month, day, year);
+				 results =  scheduleController.getScheduleByDoctorSingleDate(String.valueOf(time));
+			}
+			else {
+				 hour = validator.hourValidator(hourField.getText());
+				 minute = validator.minuteValidator(minuteField.getText());
+				 LocalDateTime time = validator.dateTimeConverter(month, day, year, hour, minute);
+				 results =  scheduleController.getScheduleByDoctorSingleDate(String.valueOf(time));
+			}
+			
+		
+			if (results.next()) {
+				do {
+					if (results.getInt(5) == 0) {
+						
+							String[] row = { results.getString(1), results.getString(2), results.getString(3),
+									results.getString(4), results.getString(5), results.getString(6),
+									results.getString(7) };
+							model.addRow(row);
+						
 
+					}
+				} while (results.next());
+			}
+
+		}
+		else {
+			throw new EmptyFieldException();
+		}
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	}
 	}
 }

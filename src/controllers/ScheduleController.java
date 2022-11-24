@@ -45,14 +45,15 @@ public class ScheduleController implements ScheduleDAO{
     }
       
       
-      public ResultSet getScheduleByDoctorSingleDate (LocalDateTime date) throws SQLException {
+      public ResultSet getScheduleByDoctorSingleDate (String string) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet result;
         
-        result = statement.executeQuery("SELECT * FROM schedule WHERE date = '"+ date +"'");
+        result = statement.executeQuery("SELECT * FROM schedule WHERE date LIKE '%"+ string +"%'");
         
         return result;
     }
+    
      
      public ResultSet takeSchedule (String id) throws SQLException {
         Statement statement = connection.createStatement();

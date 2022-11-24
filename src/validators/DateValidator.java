@@ -8,6 +8,7 @@ import exceptions.InvalidNumberException;
 import exceptions.InvalidTwoDigitsException;
 import exceptions.InvalidYearException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 
@@ -27,6 +28,11 @@ public class DateValidator {
    
    public LocalDateTime dateTimeConverter (Month month, int day, int year, int hour, int minute) {
 	   LocalDateTime dateTime = LocalDateTime.of(year, month, day,hour, minute);
+	   return dateTime;
+   }
+   
+   public LocalDate dateConverter (Month month, int day, int year) {
+	   LocalDate dateTime = LocalDate.of(year, month, day);
 	   return dateTime;
    }
    

@@ -1,9 +1,9 @@
 package screens;
 
 import controllers.ScheduleController;
+import statics.MessageStatic;
 import statics.UserStatic;
 import validators.DateValidator;
-import validators.PatientValidator;
 import validators.ScheduleValidator;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
@@ -17,19 +17,11 @@ import javax.swing.table.DefaultTableModel;
 public class ScheduleDoctor extends javax.swing.JInternalFrame {
 
 	ScheduleController schedController = new ScheduleController();
-	private JButton addAppointmentButton;
-	private JButton saveButton;
-	private JButton cancelButton;
-	private JButton refreshButton;
+	private JButton addAppointmentButton, saveButton, cancelButton, refreshButton;
 	private JList<String> jList2;
-	private JScrollPane tableResults;
-	private JScrollPane jScrollPane3;
+	private JScrollPane tableResults, jScrollPane3;
 	private JTable resultTable;
-	private JTextField dayField;
-	private JTextField monthField;
-	private JTextField yearField;
-	private JTextField hourField;
-	private JTextField minuteField;
+	private JTextField dayField, monthField, yearField, hourField,minuteField;
 
 	public ScheduleDoctor() {
 		initComponents();
@@ -48,8 +40,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 				} while (results.next());
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "There was an error trying to get the appointments");
-			System.out.println(e);
+			MessageStatic.generateErrorMessage("There was an error trying to get the appointments" + e.getMessage());
 		}
 	}
 
@@ -65,6 +56,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 		refreshButton = new JButton();
 
 		jList2.setModel(new AbstractListModel<String>() {
+			private static final long serialVersionUID = 1L;
 			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
 
 			public int getSize() {
@@ -80,6 +72,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 		resultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
 		}, new String[] { "ID", "Date", "Patient", "Price", "Taken?" }) {
+			private static final long serialVersionUID = 1L;
 			boolean[] canEdit = new boolean[] { false, false, true, true, true };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -87,16 +80,8 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 			}
 		});
 		resultTable.setColumnSelectionAllowed(true);
-		resultTable.addContainerListener(new java.awt.event.ContainerAdapter() {
-			public void componentAdded(java.awt.event.ContainerEvent evt) {
-				componentAdded(evt);
-			}
-		});
-		resultTable.addFocusListener(new java.awt.event.FocusAdapter() {
-			public void focusGained(java.awt.event.FocusEvent evt) {
-				focusGained(evt);
-			}
-		});
+		
+
 		resultTable.addComponentListener(new java.awt.event.ComponentAdapter() {
 			public void componentShown(java.awt.event.ComponentEvent evt) {
 				componentShown(evt);
@@ -107,28 +92,28 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 		addAppointmentButton.setText("Add Appointment");
 		addAppointmentButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton1ActionPerformed(evt);
+				addAppointmentButtonActionPerformed();
 			}
 		});
 
 		saveButton.setText("Save Changes");
 		saveButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton3ActionPerformed(evt);
+				saveButtonActionPerformed();
 			}
 		});
 
 		cancelButton.setText("Cancel");
 		cancelButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton4ActionPerformed(evt);
+				cancelButtonActionPerformed();
 			}
 		});
 
 		refreshButton.setText("Refresh");
 		refreshButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton5ActionPerformed(evt);
+				refreshData();
 			}
 		});
 
@@ -233,12 +218,12 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 		pack();
 	}
 
-	private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cancelButtonActionPerformed() {
 		this.setVisible(false);
 	}
 	
 
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void addAppointmentButtonActionPerformed() {
 		DateValidator validator = new DateValidator();
 		String doctor = UserStatic.currentUser.getId();
 		String specialty = UserStatic.currentUser.getSpecialty();
@@ -260,20 +245,14 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 		}
 	}
 
-	private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
-		refreshData();
-	}
 
-	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void saveButtonActionPerformed() {
 		for (int i = 0; i < resultTable.getRowCount(); i++) {
 			String id = (String) resultTable.getValueAt(i, 0);
 			String patient = (String) resultTable.getValueAt(i, 2);
 			int price = Integer.valueOf((String) resultTable.getValueAt(i, 3));
 			String taken = (String) resultTable.getValueAt(i, 4);
-
 			try {
-				//ScheduleValidator.validateTake(patient, taken);
-				PatientValidator.checkIfUserExists(patient);
 				schedController.updateSchedule(id, patient, price, taken);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

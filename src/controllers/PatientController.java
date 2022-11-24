@@ -8,14 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import dao.PatientDAO;
+import models.PatientModel;
 
 public class PatientController implements PatientDAO{
 	
 	Connection connection = ConnectionProvider.connection;
     
-    public void addPatient (String id, String name, String lastname, String history, String gender) throws SQLException {
+    public void addPatient (PatientModel patient) throws SQLException {
         Statement statement = connection.createStatement();
-        statement.executeUpdate("INSERT INTO patients VALUES('"+id+"', '"+lastname+"', '"+name+"', '"+history+"', '"+gender+"')");
+        statement.executeUpdate("INSERT INTO patients VALUES('"+patient.getId()+"', '"+patient.getLastname()+"', '"+patient.getName()+"', '"+patient.getHistory()+"', '"+patient.getGender()+"')");
     }
     public ResultSet getAllPatients (String id) throws SQLException {
         Statement statement = connection.createStatement();
@@ -26,19 +27,19 @@ public class PatientController implements PatientDAO{
         return result;
     }
     
-    public ResultSet searchPatient (String id, String name, String lastname) throws SQLException {
+    public ResultSet searchPatient (PatientModel patient) throws SQLException {
         ResultSet result;
         
-        if (id.isEmpty()) {
-            result = getPatientByName(name, lastname);
+        if (patient.getId().isEmpty()) {
+            result = getPatientByName(patient.getName(), patient.getLastname());
             return result;
         }
-        if (name.isEmpty() && lastname.isEmpty()) {
-            result = getPatientById(id);
+        if (patient.getName().isEmpty() && patient.getLastname().isEmpty()) {
+            result = getPatientById(patient.getId());
             return result;
         }
         
-        result = fullSearch(id, name, lastname);
+        result = fullSearch(patient);
         return result;
         
      }
@@ -53,11 +54,11 @@ public class PatientController implements PatientDAO{
     }
      
      
-     public ResultSet fullSearch (String id, String name, String lastname) throws SQLException {
+     public ResultSet fullSearch (PatientModel patient) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet result;
         
-        result = statement.executeQuery("SELECT * FROM patients WHERE ID LIKE '" + id +"%' AND Name LIKE '" + name +"%' AND Lastname LIKE '" + lastname + "%'");
+        result = statement.executeQuery("SELECT * FROM patients WHERE ID LIKE '" + patient.getId() +"%' AND Name LIKE '" + patient.getName() +"%' AND Lastname LIKE '" + patient.getLastname() + "%'");
         
         return result;
     }
