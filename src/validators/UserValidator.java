@@ -1,9 +1,10 @@
 
 package validators;
 
-import controllers.UserController;
 import models.UserModel;
 import exceptions.UserAlreadyExistsException;
+import implementations.UserDAOImp;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -15,7 +16,7 @@ public class UserValidator {
     }
     
     public static boolean userExists (String id) throws UserAlreadyExistsException, SQLException {
-        UserController userController = new UserController();
+        UserDAOImp userController = new UserDAOImp();
         ResultSet result = userController.getUser(id);
             if (result.next()) {
                 throw new UserAlreadyExistsException(id);

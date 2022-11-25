@@ -1,10 +1,10 @@
 package screens;
 
-import controllers.DoctorController;
-import controllers.ScheduleController;
 import dao.DoctorDAO;
 import dao.ScheduleDAO;
 import exceptions.EmptyFieldException;
+import implementations.DoctorDAOImp;
+import implementations.ScheduleDAOImp;
 import models.ScheduleModel;
 import statics.MessageStatic;
 import validators.*;
@@ -18,8 +18,8 @@ import javax.swing.*;
 
 public class ScheduleAdmin extends javax.swing.JInternalFrame {
 
-	DoctorDAO doctorController = new DoctorController();
-	ScheduleDAO scheduleController = new ScheduleController();
+	DoctorDAO doctorController = new DoctorDAOImp();
+	ScheduleDAO scheduleController = new ScheduleDAOImp();
 	private JButton cancelButton;
 	private JButton searchPatientButton;
 	private JLabel patientLabel;
@@ -264,7 +264,7 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 	}
 	
 	public void btnSaveChangesActionPerformed() {
-		ScheduleController scheduleController = new ScheduleController();
+		ScheduleDAOImp scheduleController = new ScheduleDAOImp();
 		for (int i = 0; i < resultTable.getRowCount(); i++) {
 			int id = Integer.valueOf((String) resultTable.getValueAt(i, 0));
 			String patient = (String) resultTable.getValueAt(i, 2);
@@ -288,7 +288,7 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 		
 		DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
 		model.setRowCount(0);
-		ScheduleController schedule = new ScheduleController();
+		ScheduleDAOImp schedule = new ScheduleDAOImp();
 		String id;
 		String specialty = specialtyField.getText();
 		try {

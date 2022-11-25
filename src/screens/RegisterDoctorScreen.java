@@ -1,21 +1,20 @@
 
 package screens;
 
-import controllers.DoctorController;
-import controllers.UserController;
 import dao.DoctorDAO;
 import dao.UserDAO;
 import models.UserModel;
 import validators.FieldValidator;
 import validators.UserValidator;
 import exceptions.EmptyFieldException;
+import implementations.DoctorDAOImp;
+import implementations.UserDAOImp;
+
 import java.sql.SQLException;
 import javax.swing.*;
+import java.awt.GridLayout;
 
 public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
-
-	
-	private JLabel $ = new JLabel();
 	private JTextField doctorId = new JTextField();
 	private JTextField doctorLastname = new JTextField();
 	private JTextField doctorName2 = new JTextField();
@@ -29,11 +28,11 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 	private JLabel passwordLabel = new JLabel();
 	private JLabel specialtyLabel = new JLabel();
 	private JLabel lastnameLabel = new JLabel();
-	private JLabel registerLabel = new JLabel();
 	private JTextField price = new JTextField();
 
-	DoctorDAO doctorController = new DoctorController();
-	UserDAO userController = new UserController();
+	DoctorDAO doctorController = new DoctorDAOImp();
+	UserDAO userController = new UserDAOImp();
+	private final JLabel label_28 = new JLabel("");
 
 	public RegisterDoctorScreen() {
 		initComponents();
@@ -48,8 +47,6 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 		submitButton.setText("Submit");
 		lastnameLabel.setText("Lastname");
 		doctorPrice.setText("Price per Session");
-		$.setText("$");
-		registerLabel.setText("Register Doctor");
 	}
 
 	private void initComponents() {
@@ -82,67 +79,23 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 				cancelAction();
 			}
 		});
-
-
-		GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout
-				.createSequentialGroup().addGap(135, 135, 135)
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup().addComponent(nameLabel)
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(layout.createSequentialGroup().addGroup(layout
-								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-								.addComponent(doctorPrice).addComponent(idLabel).addComponent(lastnameLabel)
-								.addComponent(specialtyLabel)
-								.addComponent(doctorName2, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-								.addComponent(doctorPassword)
-								.addComponent(doctorSpecialty, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-								.addComponent(passwordLabel).addComponent(doctorId)
-								.addComponent(doctorLastname, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-								.addGroup(layout.createSequentialGroup()
-										.addComponent(price, GroupLayout.PREFERRED_SIZE, 110,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent($))
-								.addComponent(submitButton, GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(cancelButton, GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE))
-								.addGap(0, 115, Short.MAX_VALUE))))
-				.addGroup(GroupLayout.Alignment.TRAILING,
-						layout.createSequentialGroup().addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(registerLabel).addGap(166, 166, 166)));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup().addGap(12, 12, 12).addComponent(registerLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(nameLabel)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(doctorName2, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(lastnameLabel)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(doctorLastname, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(7, 7, 7).addComponent(idLabel)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(doctorId, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(passwordLabel)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(doctorPassword, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(specialtyLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(doctorSpecialty, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(doctorPrice)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent($))
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-						.addComponent(submitButton).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(cancelButton).addGap(27, 27, 27)));
+		getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
+		getContentPane().add(nameLabel);
+		getContentPane().add(doctorName2);
+		getContentPane().add(lastnameLabel);
+		getContentPane().add(doctorLastname);
+		getContentPane().add(idLabel);
+		getContentPane().add(doctorId);
+		getContentPane().add(passwordLabel);
+		getContentPane().add(doctorPassword);
+		getContentPane().add(specialtyLabel);
+		getContentPane().add(doctorSpecialty);
+		getContentPane().add(doctorPrice);
+		getContentPane().add(price);
+		getContentPane().add(submitButton);
+		getContentPane().add(cancelButton);
+		
+		getContentPane().add(label_28);
 
 		pack();
 	}

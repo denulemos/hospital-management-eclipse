@@ -82,7 +82,7 @@ public class DoctorMain extends javax.swing.JFrame {
 
         setJMenuBar(menuDoctor);
 
-        javax.swing.GroupLayout layout = new GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

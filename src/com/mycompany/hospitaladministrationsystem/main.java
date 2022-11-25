@@ -4,8 +4,8 @@ import screens.DoctorMain;
 import statics.MessageStatic;
 import statics.UserStatic;
 import screens.AdminMain;
-import controllers.UserController;
 import exceptions.DBException;
+import implementations.UserDAOImp;
 import models.UserModel;
 import provider.ConnectionProvider;
 import validators.FieldValidator;
@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.GridLayout;
 
 public class main extends javax.swing.JFrame {
 	Connection connection;
@@ -43,16 +44,11 @@ public class main extends javax.swing.JFrame {
 	}
 
 	private void initComponents() {
-
-		passwordField = new JPasswordField();
-		idField = new JTextField();
 		loginButton = new JButton();
 		idLabel = new JLabel();
-		passLabel = new JLabel();
 
 		loginButton.setText("Login");
 		idLabel.setText("ID");
-		passLabel.setText("Password");
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,36 +58,17 @@ public class main extends javax.swing.JFrame {
 				loginButtonActionPerformed();
 			}
 		});
-
-		GroupLayout layout = new GroupLayout(getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGap(169)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(passLabel)
-						.addComponent(idLabel)
-						.addComponent(loginButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(idField)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(123, Short.MAX_VALUE))
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addGap(134)
-					.addComponent(idLabel)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(idField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(13)
-					.addComponent(passLabel)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(35)
-					.addComponent(loginButton)
-					.addContainerGap(146, Short.MAX_VALUE))
-		);
-		getContentPane().setLayout(layout);
+		getContentPane().setLayout(new GridLayout(0, 4, 4, 4));
+		getContentPane().add(idLabel);
+				idField = new JTextField();
+				getContentPane().add(idField);
+				passLabel = new JLabel();
+				passLabel.setText("Password");
+				getContentPane().add(passLabel);
+		
+				passwordField = new JPasswordField();
+				getContentPane().add(passwordField);
+		getContentPane().add(loginButton);
 
 		pack();
 	}
@@ -103,7 +80,7 @@ public class main extends javax.swing.JFrame {
 		try {
 			FieldValidator.validateField(id);
 			FieldValidator.validateField(password);
-			UserController userController = new UserController();
+			UserDAOImp userController = new UserDAOImp();
 			ResultSet result = userController.getUser(id, password);
 			if (result.next()) {
 				UserModel user = new UserModel(result.getString(2), result.getString(3), result.getString(1), result.getString(5), Integer.parseInt(result.getString(6)), null);

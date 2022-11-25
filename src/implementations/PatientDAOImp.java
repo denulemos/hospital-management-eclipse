@@ -1,4 +1,4 @@
-package controllers;
+package implementations;
 
 import provider.ConnectionProvider;
 
@@ -10,7 +10,7 @@ import java.sql.Statement;
 import dao.PatientDAO;
 import models.PatientModel;
 
-public class PatientController implements PatientDAO{
+public class PatientDAOImp implements PatientDAO{
 	
 	Connection connection = ConnectionProvider.connection;
     

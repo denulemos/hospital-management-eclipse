@@ -1,5 +1,5 @@
 
-package controllers;
+package implementations;
 
 import provider.ConnectionProvider;
 import java.sql.Connection;
@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 import dao.DoctorDAO;
 
-public class DoctorController implements DoctorDAO {
+public class DoctorDAOImp implements DoctorDAO {
 	static Connection connection = ConnectionProvider.connection;
 
 	public ResultSet getAllDoctors() throws SQLException {

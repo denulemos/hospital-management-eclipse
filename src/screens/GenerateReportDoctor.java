@@ -1,8 +1,8 @@
 package screens;
 
-import controllers.ScheduleController;
-import controllers.UserController;
 import dao.ScheduleDAO;
+import implementations.ScheduleDAOImp;
+import implementations.UserDAOImp;
 import statics.UserStatic;
 import validators.DateValidator;
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
-	ScheduleDAO schedController = new ScheduleController();
+	ScheduleDAO schedController = new ScheduleDAOImp();
 	DateValidator dateValidator = new DateValidator();
 	private JLabel amountGain;
 

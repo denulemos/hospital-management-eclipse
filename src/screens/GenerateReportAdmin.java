@@ -1,7 +1,7 @@
 package screens;
 
-import controllers.ScheduleController;
 import dao.ScheduleDAO;
+import implementations.ScheduleDAOImp;
 import validators.DateValidator;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class GenerateReportAdmin extends javax.swing.JInternalFrame {
 
-	ScheduleDAO schedController = new ScheduleController();
+	ScheduleDAO schedController = new ScheduleDAOImp();
 	DateValidator dateValidator = new DateValidator();
 	
 	private JLabel amountGain;

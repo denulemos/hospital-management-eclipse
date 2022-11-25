@@ -1,8 +1,9 @@
 
 package validators;
 
-import controllers.PatientController;
 import exceptions.PatientNotFoundException;
+import implementations.PatientDAOImp;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,7 +13,7 @@ public class PatientValidator {
         if (id == null) {
             return;
         }
-        PatientController patientController = new PatientController();
+        PatientDAOImp patientController = new PatientDAOImp();
         ResultSet result = patientController.getPatientById(id);
         
         if (result.next()){ 

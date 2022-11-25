@@ -1,4 +1,4 @@
-package controllers;
+package implementations;
 
 import provider.ConnectionProvider;
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import dao.ScheduleDAO;
 import models.ScheduleModel;
 
-public class ScheduleController implements ScheduleDAO {
+public class ScheduleDAOImp implements ScheduleDAO {
 
 	static Connection connection = ConnectionProvider.connection;
 

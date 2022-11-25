@@ -1,7 +1,7 @@
 package screens;
 
-import controllers.ScheduleController;
 import dao.ScheduleDAO;
+import implementations.ScheduleDAOImp;
 import models.ScheduleModel;
 import statics.MessageStatic;
 import statics.UserStatic;
@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class ScheduleDoctor extends javax.swing.JInternalFrame {
 
-	ScheduleDAO schedController = new ScheduleController();
+	ScheduleDAO schedController = new ScheduleDAOImp();
 	private JButton addAppointmentButton, saveButton, cancelButton, refreshButton;
 	private JList<String> jList2;
 	private JScrollPane tableResults, jScrollPane3;
@@ -242,13 +242,15 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 	}
 
 	private void saveButtonActionPerformed() {
-		ScheduleModel schedule;
+		ScheduleDAOImp scheduleController = new ScheduleDAOImp();
 		for (int i = 0; i < resultTable.getRowCount(); i++) {
-			schedule = new ScheduleModel((Integer) resultTable.getValueAt(i, 0), null,
-					(String) resultTable.getValueAt(i, 2), null, (String) resultTable.getValueAt(i, 4), null,
-					Integer.valueOf((String) resultTable.getValueAt(i, 3)));
+			int id = Integer.valueOf((String) resultTable.getValueAt(i, 0));
+			String patient = (String) resultTable.getValueAt(i, 2);
+			int price = Integer.valueOf((String) resultTable.getValueAt(i, 3));
+			String taken = (String) resultTable.getValueAt(i, 4);
 			try {
-				schedController.updateSchedule(schedule);
+				ScheduleModel schedule = new ScheduleModel(id, null, patient, null, taken, null, price);				
+				scheduleController.updateSchedule(schedule);
 			} catch (Exception e) {
 				MessageStatic.generateErrorMessage(e.getMessage());
 			}
@@ -257,6 +259,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 
 		MessageStatic.generateMessage("Appointments Updated");
 		refreshData();
+	
 	}
 
 }

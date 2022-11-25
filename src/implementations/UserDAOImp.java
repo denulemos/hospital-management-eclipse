@@ -1,4 +1,4 @@
-package controllers;
+package implementations;
 
 import provider.ConnectionProvider;
 
@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 import dao.UserDAO;
 
-public class UserController implements UserDAO {
+public class UserDAOImp implements UserDAO {
 
 	static Connection connection = ConnectionProvider.connection;
 

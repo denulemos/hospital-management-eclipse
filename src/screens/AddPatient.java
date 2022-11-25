@@ -1,24 +1,20 @@
 package screens;
 
-import controllers.PatientController;
 import dao.PatientDAO;
+import implementations.PatientDAOImp;
 import models.PatientModel;
+import statics.MessageStatic;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AddPatient extends javax.swing.JInternalFrame {
 
-    PatientDAO patientController = new PatientController();
+    PatientDAO patientController = new PatientDAOImp();
     
     // Components
-    private JButton addPatientCancel;
-    private JButton addPatientSubmit;
-    private JLabel nameLabel;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel7;
+    private JButton addPatientCancel, addPatientSubmit;
+    private JLabel nameLabel, historyLabel, lastnameLabel, idLabel;
     private JScrollPane jScrollPane1;
     private JTextArea patientHistory;
     private JTextField patientId;
@@ -45,27 +41,17 @@ public class AddPatient extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         patientName = new JTextField();
+        patientName.setToolTipText("Example: Juan");
         nameLabel = new JLabel();
         addPatientSubmit = new JButton();
         addPatientCancel = new JButton();
-        jScrollPane1 = new JScrollPane();
-        patientHistory = new JTextArea();
-        jLabel2 = new JLabel();
         patientId = new JTextField();
-        jLabel4 = new JLabel();
-        radioMan = new JRadioButton();
-        radioFemale = new JRadioButton();
-        patientLastname = new JTextField();
-        jLabel3 = new JLabel();
-        jLabel7 = new JLabel();
+        patientId.setToolTipText("Example: DNI ");
+        idLabel = new JLabel();
 
         nameLabel.setText("Name");
         addPatientSubmit.setText("Add");
-        jLabel2.setText("Medic History");
-        jLabel4.setText("ID");
-        radioMan.setText("Man");
-        radioFemale.setText("Female");
-        jLabel3.setText("Lastname");
+        idLabel.setText("ID");
         addPatientCancel.setText("Cancel");
         
         addPatientSubmit.addActionListener(new java.awt.event.ActionListener() {
@@ -81,75 +67,36 @@ public class AddPatient extends javax.swing.JInternalFrame {
                 addPatientCancelActionPerformed();
             }
         });
-
-        patientHistory.setColumns(20);
-        patientHistory.setRows(5);
-        jScrollPane1.setViewportView(patientHistory);
-
+        getContentPane().setLayout(new GridLayout(0, 2, 4, 0));
+        getContentPane().add(idLabel);
+        getContentPane().add(patientId);
+        getContentPane().add(nameLabel);
+        getContentPane().add(patientName);
+        lastnameLabel = new JLabel();
+        lastnameLabel.setText("Lastname");
+        getContentPane().add(lastnameLabel);
+        patientLastname = new JTextField();
+        patientLastname.setToolTipText("Example: Perez");
+        getContentPane().add(patientLastname);
+        radioMan = new JRadioButton();
+        radioMan.setText("Man");
+        getContentPane().add(radioMan);
+        radioFemale = new JRadioButton();
+        radioFemale.setText("Female");
+        getContentPane().add(radioFemale);
+        historyLabel = new JLabel();
+        historyLabel.setText("Medic History");
+        getContentPane().add(historyLabel);
+        jScrollPane1 = new JScrollPane();
+        jScrollPane1.setToolTipText("Example: This patient has..");
+        patientHistory = new JTextArea();
         
-
-        jLabel7.setFont(new Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel7.setText("Add Patient");
-
-        GroupLayout layout = new GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(patientId)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameLabel)
-                            .addComponent(patientName)
-                            .addComponent(addPatientSubmit, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(addPatientCancel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(radioMan)
-                                .addGap(32, 32, 32)
-                                .addComponent(radioFemale))
-                            .addComponent(patientLastname)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(jLabel7)))
-                .addContainerGap(123, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel7)
-                .addGap(34, 34, 34)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(patientId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(nameLabel)
-                .addGap(4, 4, 4)
-                .addComponent(patientName,GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(4, 4, 4)
-                .addComponent(patientLastname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioMan)
-                    .addComponent(radioFemale))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(addPatientSubmit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addPatientCancel)
-                .addGap(39, 39, 39))
-        );
+                patientHistory.setColumns(20);
+                patientHistory.setRows(5);
+                jScrollPane1.setViewportView(patientHistory);
+                getContentPane().add(jScrollPane1);
+        getContentPane().add(addPatientSubmit);
+        getContentPane().add(addPatientCancel);
 
         pack();
     }
@@ -160,9 +107,9 @@ public class AddPatient extends javax.swing.JInternalFrame {
         try {
         	PatientModel patient = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(), patientHistory.getText(), gender);
         	patientController.addPatient(patient);
-            JOptionPane.showMessageDialog(null, "The patient has been registered succesfully");
+            MessageStatic.generateMessage("The patient has been registered succesfully");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Couldn't add new Patient: " + ex);
+        	MessageStatic.generateErrorMessage("Couldn't add new Patient: " + ex);
         }
         
         
