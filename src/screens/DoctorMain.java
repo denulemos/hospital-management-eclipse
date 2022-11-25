@@ -46,7 +46,7 @@ public class DoctorMain extends javax.swing.JFrame {
 
         ScheduleMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ScheduleMenuMouseClicked(evt);
+                ScheduleMenuMouseClicked();
             }
         });
        
@@ -55,7 +55,7 @@ public class DoctorMain extends javax.swing.JFrame {
         reportMenu.setText("Generate Report");
         reportMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu2MouseClicked(evt);
+            	reportMenuMouseClicked();
             }
         });
         
@@ -64,7 +64,7 @@ public class DoctorMain extends javax.swing.JFrame {
         patientMenu.setText("Attend Patient");
         patientMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu3MouseClicked(evt);
+            	patientMenuMouseClicked();
             }
         });
        
@@ -107,20 +107,20 @@ public class DoctorMain extends javax.swing.JFrame {
 
 
 
-    private void ScheduleMenuMouseClicked(java.awt.event.MouseEvent evt) {
+    private void ScheduleMenuMouseClicked() {
     	 attendPatient.setVisible(false);
          schedule.setVisible(true);
          report.setVisible(false);
     }
 
 
-    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {
+    private void reportMenuMouseClicked() {
         attendPatient.setVisible(false);
         schedule.setVisible(false);
         report.setVisible(true);
     }
 
-    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {
+    private void patientMenuMouseClicked() {
         attendPatient.setVisible(true);
         schedule.setVisible(false);
         report.setVisible(false);

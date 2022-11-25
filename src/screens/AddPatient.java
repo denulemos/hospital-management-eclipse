@@ -1,6 +1,7 @@
 package screens;
 
 import controllers.PatientController;
+import dao.PatientDAO;
 import models.PatientModel;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 
 public class AddPatient extends javax.swing.JInternalFrame {
 
-    PatientController controller = new PatientController();
+    PatientDAO patientController = new PatientController();
     
     // Components
     private JButton addPatientCancel;
@@ -158,7 +159,7 @@ public class AddPatient extends javax.swing.JInternalFrame {
         
         try {
         	PatientModel patient = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(), patientHistory.getText(), gender);
-            controller.addPatient(patient);
+        	patientController.addPatient(patient);
             JOptionPane.showMessageDialog(null, "The patient has been registered succesfully");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Couldn't add new Patient: " + ex);

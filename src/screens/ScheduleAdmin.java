@@ -2,7 +2,10 @@ package screens;
 
 import controllers.DoctorController;
 import controllers.ScheduleController;
+import dao.DoctorDAO;
+import dao.ScheduleDAO;
 import exceptions.EmptyFieldException;
+import models.ScheduleModel;
 import statics.MessageStatic;
 import validators.*;
 import java.sql.ResultSet;
@@ -15,8 +18,8 @@ import javax.swing.*;
 
 public class ScheduleAdmin extends javax.swing.JInternalFrame {
 
-	DoctorController doctorController = new DoctorController();
-	ScheduleController scheduleController = new ScheduleController();
+	DoctorDAO doctorController = new DoctorController();
+	ScheduleDAO scheduleController = new ScheduleController();
 	private JButton cancelButton;
 	private JButton searchPatientButton;
 	private JLabel patientLabel;
@@ -261,14 +264,15 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 	}
 	
 	public void btnSaveChangesActionPerformed() {
-		ScheduleController schedule = new ScheduleController();
+		ScheduleController scheduleController = new ScheduleController();
 		for (int i = 0; i < resultTable.getRowCount(); i++) {
-			String id = (String) resultTable.getValueAt(i, 0);
+			int id = Integer.valueOf((String) resultTable.getValueAt(i, 0));
 			String patient = (String) resultTable.getValueAt(i, 2);
 			int price = Integer.valueOf((String) resultTable.getValueAt(i, 5));
 			String taken = (String) resultTable.getValueAt(i, 4);
 			try {
-				schedule.updateSchedule(id, patient, price, taken);
+				ScheduleModel schedule = new ScheduleModel(id, null, patient, null, taken, null, price);				
+				scheduleController.updateSchedule(schedule);
 			} catch (Exception e) {
 				MessageStatic.generateErrorMessage(e.getMessage());
 			}
@@ -364,7 +368,7 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 			throw new EmptyFieldException();
 		}
 	} catch (Exception e) {
-		JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		MessageStatic.generateErrorMessage(e.getMessage());
 	}
 	}
 }

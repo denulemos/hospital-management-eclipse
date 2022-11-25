@@ -2,6 +2,7 @@ package screens;
 
 import controllers.ScheduleController;
 import controllers.UserController;
+import dao.ScheduleDAO;
 import statics.UserStatic;
 import validators.DateValidator;
 import java.sql.ResultSet;
@@ -15,7 +16,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
-	ScheduleController schedController = new ScheduleController();
+	ScheduleDAO schedController = new ScheduleController();
 	DateValidator dateValidator = new DateValidator();
 	private JLabel amountGain;
 
@@ -68,14 +69,14 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 
 		generateReportButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton1ActionPerformed(evt);
+				generateReportButtonActionPerformed();
 			}
 		});
 
 		cancelButton.setText("Cancel");
 		cancelButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton2ActionPerformed(evt);
+				cancelButtonActionPerformed();
 			}
 		});
 
@@ -278,11 +279,11 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 		pack();
 	}
 
-	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cancelButtonActionPerformed() {
 		this.setVisible(false);
 	}
 
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void generateReportButtonActionPerformed() {
 		String doctor = UserStatic.currentUser.getId();
 		int hour, minute, day, year;
 		Month month;
@@ -290,9 +291,9 @@ public class GenerateReportDoctor extends javax.swing.JInternalFrame {
 		try {
 			DateValidator validator = new DateValidator();
 			// Set From
-			 day = validator.dayValidator(fromDayInput.getText());
-			 month = validator.monthValidator(fromMonthInput.getText());
-			 year = validator.yearValidator(fromYearInput.getText());
+			day = validator.dayValidator(fromDayInput.getText());
+			month = validator.monthValidator(fromMonthInput.getText());
+			year = validator.yearValidator(fromYearInput.getText());
 
 			if (fromHourInput.getText().isEmpty()) {
 				hour = 00;

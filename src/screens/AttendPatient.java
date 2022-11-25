@@ -2,6 +2,7 @@
 package screens;
 
 import controllers.PatientController;
+import dao.PatientDAO;
 import models.PatientModel;
 import statics.MessageStatic;
 import validators.FieldValidator;
@@ -11,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class AttendPatient extends javax.swing.JInternalFrame {
 
-	PatientController controller = new PatientController();
+	PatientDAO patientController = new PatientController();
 
 	private JTextArea historyPatient;
 	private JButton searchButton, saveButton, cancelButton;
@@ -186,7 +187,7 @@ public class AttendPatient extends javax.swing.JInternalFrame {
 			PatientModel user = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(),
 					null, null);
 
-			ResultSet result = controller.searchPatient(user);
+			ResultSet result = patientController.searchPatient(user);
 
 			if (result.next()) {
 				DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
@@ -214,7 +215,7 @@ public class AttendPatient extends javax.swing.JInternalFrame {
 				historyPatient.getText(), null);
 
 		try {
-			controller.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
+			patientController.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
 			MessageStatic.generateMessage("Patient updated");
 		}
 

@@ -1,6 +1,8 @@
 package screens;
 
 import controllers.ScheduleController;
+import dao.ScheduleDAO;
+import models.ScheduleModel;
 import statics.MessageStatic;
 import statics.UserStatic;
 import validators.DateValidator;
@@ -16,12 +18,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class ScheduleDoctor extends javax.swing.JInternalFrame {
 
-	ScheduleController schedController = new ScheduleController();
+	ScheduleDAO schedController = new ScheduleController();
 	private JButton addAppointmentButton, saveButton, cancelButton, refreshButton;
 	private JList<String> jList2;
 	private JScrollPane tableResults, jScrollPane3;
 	private JTable resultTable;
-	private JTextField dayField, monthField, yearField, hourField,minuteField;
+	private JTextField dayField, monthField, yearField, hourField, minuteField;
 
 	public ScheduleDoctor() {
 		initComponents();
@@ -80,13 +82,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 			}
 		});
 		resultTable.setColumnSelectionAllowed(true);
-		
 
-		resultTable.addComponentListener(new java.awt.event.ComponentAdapter() {
-			public void componentShown(java.awt.event.ComponentEvent evt) {
-				componentShown(evt);
-			}
-		});
 		tableResults.setViewportView(resultTable);
 
 		addAppointmentButton.setText("Add Appointment");
@@ -147,12 +143,13 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 		minuteField.setToolTipText("Example: 02");
 		minuteField.setColumns(10);
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
 						.addGap(22)
 						.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(addAppointmentButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+								.addComponent(addAppointmentButton, GroupLayout.PREFERRED_SIZE, 139,
+										GroupLayout.PREFERRED_SIZE)
 								.addGroup(layout.createSequentialGroup()
 										.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
 												.addComponent(dayField, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
@@ -168,9 +165,10 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 						.addGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(layout.createSequentialGroup()
 								.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(refreshButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+								.addComponent(refreshButton, GroupLayout.PREFERRED_SIZE, 139,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(cancelButton,
+										GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
 								.addGroup(layout.createSequentialGroup()
 										.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
 												.addComponent(yearField, 0, 0, Short.MAX_VALUE)
@@ -209,8 +207,8 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 						.addComponent(minuteField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE))
 				.addGap(37)
-				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(addAppointmentButton).addComponent(saveButton)
-						.addComponent(refreshButton).addComponent(cancelButton))
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(addAppointmentButton)
+						.addComponent(saveButton).addComponent(refreshButton).addComponent(cancelButton))
 				.addGap(18).addComponent(tableResults, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
 				.addContainerGap()));
 		getContentPane().setLayout(layout);
@@ -221,7 +219,6 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 	private void cancelButtonActionPerformed() {
 		this.setVisible(false);
 	}
-	
 
 	private void addAppointmentButtonActionPerformed() {
 		DateValidator validator = new DateValidator();
@@ -237,30 +234,28 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 			LocalDateTime time = validator.dateTimeConverter(month, day, year, hour, minute);
 			ScheduleValidator.isScheduleOccuped(time, doctor);
 			schedController.createSchedule(doctor, time, price, specialty);
-			JOptionPane.showMessageDialog(null, "Appointment created");
+			MessageStatic.generateMessage("Appointment created");
 			refreshData();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "There was an error:" + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			MessageStatic.generateErrorMessage("There was an error:" + e.getMessage());
 		}
 	}
 
-
 	private void saveButtonActionPerformed() {
+		ScheduleModel schedule;
 		for (int i = 0; i < resultTable.getRowCount(); i++) {
-			String id = (String) resultTable.getValueAt(i, 0);
-			String patient = (String) resultTable.getValueAt(i, 2);
-			int price = Integer.valueOf((String) resultTable.getValueAt(i, 3));
-			String taken = (String) resultTable.getValueAt(i, 4);
+			schedule = new ScheduleModel((Integer) resultTable.getValueAt(i, 0), null,
+					(String) resultTable.getValueAt(i, 2), null, (String) resultTable.getValueAt(i, 4), null,
+					Integer.valueOf((String) resultTable.getValueAt(i, 3)));
 			try {
-				schedController.updateSchedule(id, patient, price, taken);
+				schedController.updateSchedule(schedule);
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				MessageStatic.generateErrorMessage(e.getMessage());
 			}
 
 		}
 
-		JOptionPane.showMessageDialog(null, "Appointments Updated");
+		MessageStatic.generateMessage("Appointments Updated");
 		refreshData();
 	}
 

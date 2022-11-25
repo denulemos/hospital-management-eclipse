@@ -3,13 +3,14 @@ package screens;
 
 import controllers.DoctorController;
 import controllers.UserController;
+import dao.DoctorDAO;
+import dao.UserDAO;
 import models.UserModel;
 import validators.FieldValidator;
 import validators.UserValidator;
 import exceptions.EmptyFieldException;
 import java.sql.SQLException;
 import javax.swing.*;
-import utils.Fonts;
 
 public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 
@@ -31,8 +32,8 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 	private JLabel registerLabel = new JLabel();
 	private JTextField price = new JTextField();
 
-	DoctorController doctorController = new DoctorController();
-	UserController userController = new UserController();
+	DoctorDAO doctorController = new DoctorController();
+	UserDAO userController = new UserController();
 
 	public RegisterDoctorScreen() {
 		initComponents();
@@ -82,7 +83,6 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 			}
 		});
 
-		registerLabel.setFont(Fonts.TITLE);
 
 		GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);

@@ -106,9 +106,8 @@ public class main extends javax.swing.JFrame {
 			UserController userController = new UserController();
 			ResultSet result = userController.getUser(id, password);
 			if (result.next()) {
-				UserModel user;
-				user = UserStatic.setGlobalUser(result.getString(2), result.getString(3), result.getString(1),
-						result.getString(5), Integer.parseInt(result.getString(6)));
+				UserModel user = new UserModel(result.getString(2), result.getString(3), result.getString(1), result.getString(5), Integer.parseInt(result.getString(6)), null);
+				UserStatic.setGlobalUser(user);
 				
 				if (UserValidator.isDoctor(user)) {
 					DoctorMain doctorMain = new DoctorMain();

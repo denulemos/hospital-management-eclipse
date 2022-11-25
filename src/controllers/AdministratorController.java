@@ -10,7 +10,7 @@ import dao.AdminDAO;
 
 
 public class AdministratorController implements AdminDAO{
-	Connection connection = ConnectionProvider.connection;
+	static Connection connection = ConnectionProvider.connection;
 	
     public void addAdmin (String id, String name, String lastname, String password) throws SQLException {
         Statement statement = connection.createStatement();

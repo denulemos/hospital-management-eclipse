@@ -3,6 +3,8 @@ package screens;
 
 import controllers.AdministratorController;
 import controllers.UserController;
+import dao.AdminDAO;
+import dao.UserDAO;
 import validators.FieldValidator;
 import validators.UserValidator;
 import exceptions.EmptyFieldException;
@@ -13,8 +15,8 @@ import javax.swing.*;
 public class RegisterConsultantScreen extends javax.swing.JInternalFrame {
 
    
-    AdministratorController controller = new AdministratorController();
-    UserController userController = new UserController();
+    AdminDAO controller = new AdministratorController();
+    UserDAO userController = new UserController();
     
     private JLabel nameLabel;
     private JTextField adminId;
@@ -76,7 +78,7 @@ public class RegisterConsultantScreen extends javax.swing.JInternalFrame {
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+            	cancelButtonActionPerformed();
             }
         });
 
@@ -88,8 +90,6 @@ public class RegisterConsultantScreen extends javax.swing.JInternalFrame {
 
         nameLabel.setText("Name");
 
-        titleLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        titleLabel.setText("Register new Administrator");
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,7 +119,6 @@ public class RegisterConsultantScreen extends javax.swing.JInternalFrame {
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(titleLabel)
                 .addGap(29, 29, 29)
                 .addComponent(nameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -146,9 +145,8 @@ public class RegisterConsultantScreen extends javax.swing.JInternalFrame {
         pack();
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        this.setVisible(false);
-        
+    private void cancelButtonActionPerformed() {
+        this.setVisible(false);   
     }
 
 

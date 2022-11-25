@@ -3,189 +3,181 @@ package screens;
 
 import javax.swing.*;
 
-
 public class AdminMain extends javax.swing.JFrame {
-	
-	
-	 private JMenu usersMenu= new JMenu();
-	 private JMenu patientsMenu= new JMenu();
-	 private JMenu scheduleMenu= new JMenu();
-	 private JMenu reportMenu= new JMenu();
-	 private JMenuBar jMenuBar1 = new JMenuBar();
-	 private JMenuItem addDoctorMenu= new JMenuItem();
-	 private JMenuItem addPatientMenu= new JMenuItem();
-	 private JMenuItem jMenuItem4 = new JMenuItem();
-	 private JMenuItem addAdminMenu= new JMenuItem();
-	 private JMenu logoutMenu= new JMenu();
 
-    AddPatient addPatient;
-    RegisterDoctorScreen registerDoctorScreen;
-    RegisterConsultantScreen registerAdmin;
-    AttendPatient editPatient;
-    ScheduleAdmin schedule;
-    GenerateReportAdmin report;
+	private JMenu usersMenu = new JMenu();
+	private JMenu patientsMenu = new JMenu();
+	private JMenu scheduleMenu = new JMenu();
+	private JMenu reportMenu = new JMenu();
+	private JMenuBar jMenuBar1 = new JMenuBar();
+	private JMenuItem addDoctorMenu = new JMenuItem();
+	private JMenuItem addPatientMenu = new JMenuItem();
+	private JMenuItem jMenuItem4 = new JMenuItem();
+	private JMenuItem addAdminMenu = new JMenuItem();
+	private JMenu logoutMenu = new JMenu();
 
-    public AdminMain() {
-        initComponents();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        addScreens();
-    }
-    
-    private void addScreens () {
-    	addPatient = new AddPatient();
-        registerDoctorScreen = new RegisterDoctorScreen();
-        registerAdmin = new RegisterConsultantScreen();
-        editPatient = new AttendPatient();
-        schedule = new ScheduleAdmin();
-        report = new GenerateReportAdmin();
-        getContentPane().add(addPatient);
-        getContentPane().add(registerDoctorScreen);
-        getContentPane().add(registerAdmin);
-        getContentPane().add(editPatient);
-        getContentPane().add(schedule);
-        getContentPane().add(report);
-    }
+	AddPatient addPatient;
+	RegisterDoctorScreen registerDoctorScreen;
+	RegisterConsultantScreen registerAdmin;
+	AttendPatient editPatient;
+	ScheduleAdmin schedule;
+	GenerateReportAdmin report;
 
-   
-    private void initComponents() {
+	public AdminMain() {
+		initComponents();
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		addScreens();
+	}
 
-        jMenuItem4.setText("jMenuItem4");
+	private void addScreens() {
+		addPatient = new AddPatient();
+		registerDoctorScreen = new RegisterDoctorScreen();
+		registerAdmin = new RegisterConsultantScreen();
+		editPatient = new AttendPatient();
+		schedule = new ScheduleAdmin();
+		report = new GenerateReportAdmin();
+		getContentPane().add(addPatient);
+		getContentPane().add(registerDoctorScreen);
+		getContentPane().add(registerAdmin);
+		getContentPane().add(editPatient);
+		getContentPane().add(schedule);
+		getContentPane().add(report);
+	}
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 102, 102));
+	private void initComponents() {
 
-        usersMenu.setText("Users");
+		jMenuItem4.setText("jMenuItem4");
 
-        addDoctorMenu.setText("Add new Doctor");
-        addDoctorMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        usersMenu.add(addDoctorMenu);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setBackground(new java.awt.Color(0, 102, 102));
 
-        addAdminMenu.setText("Add new Admin");
-        addAdminMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
-            }
-        });
-        usersMenu.add(addAdminMenu);
+		usersMenu.setText("Users");
 
-        jMenuBar1.add(usersMenu);
+		addDoctorMenu.setText("Add new Doctor");
+		addDoctorMenu.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jMenuItem1ActionPerformed(evt);
+			}
+		});
+		usersMenu.add(addDoctorMenu);
 
-        patientsMenu.setText("Patients");
+		addAdminMenu.setText("Add new Admin");
+		addAdminMenu.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jMenuItem7ActionPerformed(evt);
+			}
+		});
+		usersMenu.add(addAdminMenu);
 
-        addPatientMenu.setText("Add new Patient");
-        addPatientMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        patientsMenu.add(addPatientMenu);
+		jMenuBar1.add(usersMenu);
 
-        jMenuBar1.add(patientsMenu);
+		patientsMenu.setText("Patients");
 
-        scheduleMenu.setText("Schedule");
-        scheduleMenu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu3MouseClicked(evt);
-            }
-        });
-       
-        jMenuBar1.add(scheduleMenu);
+		addPatientMenu.setText("Add new Patient");
+		addPatientMenu.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jMenuItem2ActionPerformed(evt);
+			}
+		});
+		patientsMenu.add(addPatientMenu);
 
-        reportMenu.setText("Generate Report");
-        reportMenu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu4MouseClicked(evt);
-            }
-        });
-       
-        jMenuBar1.add(reportMenu);
+		jMenuBar1.add(patientsMenu);
 
-        logoutMenu.setText("Logout");
-        logoutMenu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoutMenuMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(logoutMenu);
+		scheduleMenu.setText("Schedule");
+		scheduleMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				jMenu3MouseClicked(evt);
+			}
+		});
 
-        setJMenuBar(jMenuBar1);
+		jMenuBar1.add(scheduleMenu);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1235, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 738, Short.MAX_VALUE)
-        );
+		reportMenu.setText("Generate Report");
+		reportMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				jMenu4MouseClicked(evt);
+			}
+		});
 
-        pack();
-    }
+		jMenuBar1.add(reportMenu);
 
-    private void logoutMenuMouseClicked(java.awt.event.MouseEvent evt) {
-         int option = JOptionPane.showConfirmDialog(null, "Do you really want to Log Out?", "Select", JOptionPane.YES_NO_OPTION);
-            if (option == 0) {
-                System.exit(0);
-            }
-    }
+		logoutMenu.setText("Logout");
+		logoutMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				logoutMenuMouseClicked(evt);
+			}
+		});
+		jMenuBar1.add(logoutMenu);
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {
-        addPatient.setVisible(false);
-        registerDoctorScreen.setVisible(true);
-        registerAdmin.setVisible(false);
-        editPatient.setVisible(false);
-        report.setVisible(false);
-    }
+		setJMenuBar(jMenuBar1);
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {
-        addPatient.setVisible(true);
-        registerDoctorScreen.setVisible(false);
-        registerAdmin.setVisible(false);
-         editPatient.setVisible(false);
-         report.setVisible(false);
-    }
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1235, Short.MAX_VALUE));
+		layout.setVerticalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 738, Short.MAX_VALUE));
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {
-        addPatient.setVisible(false);
-        registerDoctorScreen.setVisible(false);
-        registerAdmin.setVisible(true);
-         editPatient.setVisible(false);
-         report.setVisible(false);
-    }
+		pack();
+	}
 
-    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {
-        addPatient.setVisible(false);
-        registerDoctorScreen.setVisible(false);
-        registerAdmin.setVisible(false);
-         editPatient.setVisible(false);
-         schedule.setVisible(true);
-         report.setVisible(false);
-    }
+	private void logoutMenuMouseClicked(java.awt.event.MouseEvent evt) {
+		int option = JOptionPane.showConfirmDialog(null, "Do you really want to Log Out?", "Select",
+				JOptionPane.YES_NO_OPTION);
+		if (option == 0) {
+			System.exit(0);
+		}
+	}
 
-    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {
-        addPatient.setVisible(false);
-        registerDoctorScreen.setVisible(false);
-        registerAdmin.setVisible(false);
-         editPatient.setVisible(false);
-         schedule.setVisible(false);
-         report.setVisible(true);
-    }
-    public static void main(String args[]) {
-      
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdminMain().setVisible(true);
-            }
-        });
-    }
+	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {
+		addPatient.setVisible(false);
+		registerDoctorScreen.setVisible(true);
+		registerAdmin.setVisible(false);
+		editPatient.setVisible(false);
+		report.setVisible(false);
+	}
 
-    
- 
-  
+	private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {
+		addPatient.setVisible(true);
+		registerDoctorScreen.setVisible(false);
+		registerAdmin.setVisible(false);
+		editPatient.setVisible(false);
+		report.setVisible(false);
+	}
+
+	private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {
+		addPatient.setVisible(false);
+		registerDoctorScreen.setVisible(false);
+		registerAdmin.setVisible(true);
+		editPatient.setVisible(false);
+		report.setVisible(false);
+	}
+
+	private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {
+		addPatient.setVisible(false);
+		registerDoctorScreen.setVisible(false);
+		registerAdmin.setVisible(false);
+		editPatient.setVisible(false);
+		schedule.setVisible(true);
+		report.setVisible(false);
+	}
+
+	private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {
+		addPatient.setVisible(false);
+		registerDoctorScreen.setVisible(false);
+		registerAdmin.setVisible(false);
+		editPatient.setVisible(false);
+		schedule.setVisible(false);
+		report.setVisible(true);
+	}
+
+	public static void main(String args[]) {
+
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new AdminMain().setVisible(true);
+			}
+		});
+	}
+
 }
