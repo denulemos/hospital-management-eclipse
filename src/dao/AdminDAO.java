@@ -2,6 +2,12 @@ package dao;
 
 import java.sql.SQLException;
 
+import models.UserModel;
+
 public interface AdminDAO {
-	public void addAdmin (String id, String name, String lastname, String password) throws SQLException;
+	public void add(UserModel user) throws SQLException;
+
+	public UserModel login(String id, String password) throws SQLException;
+	
+	public UserModel get(String id) throws SQLException;
 }

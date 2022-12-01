@@ -73,7 +73,7 @@ public class ScheduleDoctor extends javax.swing.JInternalFrame {
 
 		resultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-		}, new String[] { "ID", "Date", "Patient", "Price", "Taken?" }) {
+		}, new String[] { "ID", "Date", "Patient", "Price" }) {
 			private static final long serialVersionUID = 1L;
 			boolean[] canEdit = new boolean[] { false, false, true, true, true };
 

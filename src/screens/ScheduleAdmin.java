@@ -56,9 +56,9 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 
 		resultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-		}, new String[] { "ID", "Doctor", "Patient", "Date", "Taken", "Price", "Specialty" }) {
+		}, new String[] { "ID", "Doctor", "Patient", "Date", "Price", "Specialty" }) {
 			private static final long serialVersionUID = 1L;
-			boolean[] canEdit = new boolean[] { false, false, true, false, true, false, false };
+			boolean[] canEdit = new boolean[] { false, false, true, false, false, false };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return canEdit[columnIndex];
@@ -271,7 +271,7 @@ public class ScheduleAdmin extends javax.swing.JInternalFrame {
 			int price = Integer.valueOf((String) resultTable.getValueAt(i, 5));
 			String taken = (String) resultTable.getValueAt(i, 4);
 			try {
-				ScheduleModel schedule = new ScheduleModel(id, null, patient, null, taken, null, price);				
+				ScheduleModel schedule = new ScheduleModel(id, null, patient, null, null, price);				
 				scheduleController.updateSchedule(schedule);
 			} catch (Exception e) {
 				MessageStatic.generateErrorMessage(e.getMessage());

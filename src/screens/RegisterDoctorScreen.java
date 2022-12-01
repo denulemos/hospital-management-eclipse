@@ -2,21 +2,19 @@
 package screens;
 
 import dao.DoctorDAO;
-import dao.UserDAO;
-import models.UserModel;
+import models.DoctorModel;
+import statics.MessageStatic;
 import validators.FieldValidator;
-import validators.UserValidator;
 import exceptions.EmptyFieldException;
+import exceptions.UserAlreadyExistsException;
 import implementations.DoctorDAOImp;
-import implementations.UserDAOImp;
 
-import java.sql.SQLException;
 import javax.swing.*;
 import java.awt.GridLayout;
 
+@SuppressWarnings("serial")
 public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 	private JTextField doctorId = new JTextField();
-	private JTextField doctorLastname = new JTextField();
 	private JTextField doctorName2 = new JTextField();
 	private JPasswordField doctorPassword = new JPasswordField();
 	private JLabel doctorPrice = new JLabel();
@@ -27,11 +25,9 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 	private JLabel idLabel = new JLabel();
 	private JLabel passwordLabel = new JLabel();
 	private JLabel specialtyLabel = new JLabel();
-	private JLabel lastnameLabel = new JLabel();
 	private JTextField price = new JTextField();
 
 	DoctorDAO doctorController = new DoctorDAOImp();
-	UserDAO userController = new UserDAOImp();
 	private final JLabel label_28 = new JLabel("");
 
 	public RegisterDoctorScreen() {
@@ -39,13 +35,12 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 	}
 
 	private void setTexts() {
-		nameLabel.setText("Name");
+		nameLabel.setText("Fullname");
 		idLabel.setText("ID");
 		passwordLabel.setText("Password");
 		specialtyLabel.setText("Specialty");
 		cancelButton.setText("Cancel");
 		submitButton.setText("Submit");
-		lastnameLabel.setText("Lastname");
 		doctorPrice.setText("Price per Session");
 	}
 
@@ -57,19 +52,23 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				try {
 					validateFields();
-					UserValidator.userExists(doctorId.getText());
-					int priceDoctor = FieldValidator.validateAndConvertToNumber(price.getText());
-					UserModel doctor = new UserModel(doctorName2.getText(), doctorLastname.getText(),
-							doctorId.getText(), doctorSpecialty.getText(), priceDoctor,
-							String.valueOf(doctorPassword.getPassword()));
-					doctorController.addDoctor(doctor.getId(), doctor.getName(), doctor.getLastname(),
-							doctor.getPassword(), doctor.getSpecialty(), doctor.getPrice());
-					JOptionPane.showMessageDialog(null, "The Doctor has been registered succesfully");
-				} catch (SQLException ex) {
-					JOptionPane.showMessageDialog(null, "Couldn't add new Doctor: " + ex, "Error",
-							JOptionPane.ERROR_MESSAGE);
+					DoctorModel doctor = doctorController.getById(doctorId.getText());
+					if (doctor != null) {
+						throw new UserAlreadyExistsException(doctorId.getText());
+					} else {
+						String name = doctorName2.getText();
+						String id = doctorId.getText();
+						String specialty = doctorSpecialty.getText();
+						String password = String.valueOf(doctorPassword.getPassword());
+
+						int priceDoctor = FieldValidator.validateAndConvertToNumber(price.getText());
+						doctor = new DoctorModel(name, id,password, specialty, priceDoctor);
+						doctorController.add(doctor);
+						MessageStatic.generateMessage("The Doctor has been added");
+					}
+
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					MessageStatic.generateErrorMessage(e.getMessage());
 				}
 			}
 		});
@@ -82,8 +81,6 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 		getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
 		getContentPane().add(nameLabel);
 		getContentPane().add(doctorName2);
-		getContentPane().add(lastnameLabel);
-		getContentPane().add(doctorLastname);
 		getContentPane().add(idLabel);
 		getContentPane().add(doctorId);
 		getContentPane().add(passwordLabel);
@@ -94,7 +91,7 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 		getContentPane().add(price);
 		getContentPane().add(submitButton);
 		getContentPane().add(cancelButton);
-		
+
 		getContentPane().add(label_28);
 
 		pack();
@@ -102,7 +99,6 @@ public class RegisterDoctorScreen extends javax.swing.JInternalFrame {
 
 	private void validateFields() throws EmptyFieldException {
 		FieldValidator.validateField(doctorName2.getText());
-		FieldValidator.validateField(doctorLastname.getText());
 		FieldValidator.validateField(doctorId.getText());
 		FieldValidator.validateField(doctorSpecialty.getText());
 		FieldValidator.validateField(String.valueOf(doctorPassword.getPassword()));

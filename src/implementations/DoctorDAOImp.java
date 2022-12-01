@@ -6,66 +6,72 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import dao.DoctorDAO;
+import daos.MedicoDAOH2Impl;
+import models.DoctorModel;
 
 public class DoctorDAOImp implements DoctorDAO {
+	private static DoctorDAOImp instance;
+	
+	public static DoctorDAOImp getInstance() {
+		if (instance == null) {
+			instance = new DoctorDAOImp();
+		}
+		
+		return instance;
+	}
 	static Connection connection = ConnectionProvider.connection;
 
-	public ResultSet getAllDoctors() throws SQLException {
-		Statement statement = connection.createStatement();
-		ResultSet result;
 
-		result = statement.executeQuery("SELECT * FROM users WHERE specialty IS NOT NULL");
-
-		return result;
-	}
-
-	public void addDoctor(String id, String name, String lastname, String password, String specialty, int price)
-			throws SQLException {
+	@Override
+	public void add(DoctorModel doctor) throws SQLException {
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(
-				"INSERT INTO users (`ID`, `Name`, `Lastname`, `Password`, `Specialty`, `Price`) VALUES('" + id + "', '"
-						+ name + "', '" + lastname + "', '" + password + "', '" + specialty + "', " + price + ")");
+				"INSERT INTO doctors (`ID`, `Fullname`, `Password`, `Specialty`, `Price`) VALUES('" + doctor.getId() + "', '"
+						+ doctor.getFullName() + "', '" + doctor.getPassword() + "', '" + doctor.getSpecialty() + "', " + doctor.getPrice() + ")");
+		
 	}
 
-	public ResultSet getDoctorBySpecialty(String specialty) throws SQLException {
+	@Override
+	public List<DoctorModel> getBySpecialty(String specialty) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result;
 
-		result = statement.executeQuery("SELECT * FROM users WHERE specialty LIKE '" + specialty + "%'");
+		result = statement.executeQuery("SELECT * FROM doctors WHERE specialty LIKE '" + specialty + "%'");
 
 		return result;
 	}
 
-	public ResultSet getDoctor(String id) throws SQLException {
+	@Override
+	public List<DoctorModel> getByName(String fullName) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result;
-
-		result = statement.executeQuery("SELECT * FROM users WHERE id LIKE '" + id + "%'");
-
-		return result;
-	}
-
-	public ResultSet getDoctor(String name, String lastname) throws SQLException {
-		Statement statement = connection.createStatement();
-		ResultSet result;
-
-		if (name.isEmpty() && !lastname.isEmpty()) {
-			result = statement.executeQuery("SELECT * FROM users WHERE lastname LIKE '" + lastname + "%'");
-			return result;
-
-		}
-
-		if (!name.isEmpty() && lastname.isEmpty()) {
-			result = statement.executeQuery("SELECT * FROM users WHERE name LIKE '" + name + "%'");
-			return result;
-		}
 
 		result = statement.executeQuery(
-				"SELECT * FROM users WHERE lastname LIKE '" + lastname + "%' AND name LIKE '" + name + "%'");
+				"SELECT * FROM doctors WHERE fullname LIKE '" + fullName + "%'");
 		return result;
+	}
 
+	@Override
+	public DoctorModel getById(String id) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result;
+
+		result = statement.executeQuery(
+				"SELECT * FROM doctors WHERE id = '" + id + "%'");
+		return result;
+	}
+
+	@Override
+	public DoctorModel login(String id, String password) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet result;
+
+		result = statement.executeQuery("SELECT * FROM doctors WHERE ID = '" + specialty + "' AND password = '" + password +"'");
+
+		return result;
 	}
 
 }

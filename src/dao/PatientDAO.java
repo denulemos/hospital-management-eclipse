@@ -1,22 +1,17 @@
 package dao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import exceptions.PatientNotFoundException;
 import models.PatientModel;
 
 public interface PatientDAO {
-	public  void addPatient(PatientModel patient) throws SQLException;
+	public  void add(PatientModel patient) throws SQLException;
 
-	public  ResultSet getAllPatients(String id) throws SQLException;
+	public  PatientModel get(String id) throws SQLException, PatientNotFoundException;
 
-	public  ResultSet searchPatient(PatientModel patient) throws SQLException;
+	public  List<PatientModel> getByName(String fullname) throws SQLException;
 
-	public  ResultSet getPatientById(String id) throws SQLException;
-
-	public  ResultSet fullSearch(PatientModel patient) throws SQLException;
-
-	public  ResultSet getPatientByName(String name, String lastname) throws SQLException;
-
-	public  void editPatient(String id, String name, String lastname, String history) throws SQLException;
+	public  void edit(PatientModel patient) throws SQLException;
 }

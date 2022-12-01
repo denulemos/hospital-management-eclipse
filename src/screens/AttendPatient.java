@@ -11,15 +11,16 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.GridLayout;
 
+@SuppressWarnings("serial")
 public class AttendPatient extends javax.swing.JInternalFrame {
 
 	PatientDAO patientController = new PatientDAOImp();
 
 	private JTextArea historyPatient;
 	private JButton searchButton, saveButton, cancelButton;
-	private JLabel idLabel, historyLabel, jLabel3, nameLabel, jLabel5, lastnameLabel;
+	private JLabel idLabel, historyLabel, jLabel3, jLabel5;
 	private JScrollPane jScrollPane2;
-	private JTextField patientId, patientLastname, patientName;
+	private JTextField patientId;
 	private JTable resultTable;
 
 	public AttendPatient() {
@@ -38,77 +39,56 @@ public class AttendPatient extends javax.swing.JInternalFrame {
 		jLabel5.setText("Patient Name");
 
 		idLabel.setText("Patient ID");
-		getContentPane().setLayout(new GridLayout(7, 2, 0, 0));
+		getContentPane().setLayout(new GridLayout(4, 2, 0, 0));
 		getContentPane().add(idLabel);
 		getContentPane().add(patientId);
-				nameLabel = new JLabel();
-				
-						nameLabel.setText("Patient Name");
-						getContentPane().add(nameLabel);
-				patientName = new JTextField();
-				getContentPane().add(patientName);
-				lastnameLabel = new JLabel();
-				
-						lastnameLabel.setText("Patient Lastname");
-						getContentPane().add(lastnameLabel);
-				patientLastname = new JTextField();
-				getContentPane().add(patientLastname);
-				historyLabel = new JLabel();
-				
-						historyLabel.setText("History");
-						getContentPane().add(historyLabel);
-				historyPatient = new JTextArea();
-				getContentPane().add(historyPatient);
-				
-						historyPatient.setColumns(20);
-						historyPatient.setRows(5);
-				jScrollPane2 = new JScrollPane();
-				resultTable = new JTable();
-				
-						resultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
-				
-						}, new String[] { "Name", "Lastname", "ID " }) {
-							private static final long serialVersionUID = 1L;
-							boolean[] canEdit = new boolean[] { false, false, false };
-				
-							public boolean isCellEditable(int rowIndex, int columnIndex) {
-								return canEdit[columnIndex];
-							}
-						});
-						resultTable.addMouseListener(new java.awt.event.MouseAdapter() {
-							public void mouseClicked(java.awt.event.MouseEvent evt) {
-								mouseClicked(evt);
-							}
-						});
-						jScrollPane2.setViewportView(resultTable);
-						getContentPane().add(jScrollPane2);
-				cancelButton = new JButton();
-				
-						cancelButton.setText("Cancel");
-						cancelButton.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(java.awt.event.ActionEvent evt) {
-								cancelButtonActionPerformed();
-							}
-						});
-						saveButton = new JButton();
-						
-								saveButton.setText("Save Changes");
-								saveButton.addActionListener(new java.awt.event.ActionListener() {
-									public void actionPerformed(java.awt.event.ActionEvent evt) {
-										saveButtonActionPerformed();
-									}
-								});
-								getContentPane().add(saveButton);
-						getContentPane().add(cancelButton);
-				searchButton = new JButton();
-				
-						searchButton.setText("Search");
-						searchButton.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(java.awt.event.ActionEvent evt) {
-								searchButtonActionPerformed();
-							}
-						});
-						getContentPane().add(searchButton);
+		historyLabel = new JLabel();
+
+		historyLabel.setText("History");
+		getContentPane().add(historyLabel);
+		historyPatient = new JTextArea();
+		getContentPane().add(historyPatient);
+
+		historyPatient.setColumns(20);
+		historyPatient.setRows(5);
+		jScrollPane2 = new JScrollPane();
+		resultTable = new JTable();
+
+		resultTable.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Name", "ID " }));
+		resultTable.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				mouseClicked(evt);
+			}
+		});
+		jScrollPane2.setViewportView(resultTable);
+		getContentPane().add(jScrollPane2);
+		cancelButton = new JButton();
+
+		cancelButton.setText("Cancel");
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancelButtonActionPerformed();
+			}
+		});
+		saveButton = new JButton();
+
+		saveButton.setText("Save Changes");
+		saveButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				saveButtonActionPerformed();
+			}
+		});
+		getContentPane().add(saveButton);
+		getContentPane().add(cancelButton);
+		searchButton = new JButton();
+
+		searchButton.setText("Search");
+		searchButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				searchButtonActionPerformed();
+			}
+		});
+		getContentPane().add(searchButton);
 
 		pack();
 	}
@@ -118,21 +98,12 @@ public class AttendPatient extends javax.swing.JInternalFrame {
 		try {
 			DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
 			model.setRowCount(0);
-			PatientModel user = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(),
-					null, null);
 
-			ResultSet result = patientController.searchPatient(user);
+			PatientModel result = patientController.get(patientId.getText());
 
-			if (result.next()) {
-				String[] row = { result.getString(3), result.getString(2), result.getString(1) };
-				model.addRow(row);
-				historyPatient.setText(result.getString(4));
-			}
-
-			else {
-				MessageStatic.generateErrorMessage("User not found");
-				return;
-			}
+			String[] row = { result.getFullname(), result.getId() };
+			model.addRow(row);
+			historyPatient.setText(result.getHistory());
 
 		}
 
@@ -143,12 +114,12 @@ public class AttendPatient extends javax.swing.JInternalFrame {
 	}
 
 	private void saveButtonActionPerformed() {
-		PatientModel user = new PatientModel((String) resultTable.getModel().getValueAt(0, 2),
-				(String) resultTable.getModel().getValueAt(0, 1), (String) resultTable.getModel().getValueAt(0, 0),
-				historyPatient.getText(), null);
-
 		try {
-			patientController.editPatient(user.getId(), user.getName(), user.getLastname(), user.getHistory());
+			String id = (String) resultTable.getModel().getValueAt(0, 2);
+			String fullname = (String) resultTable.getModel().getValueAt(0, 1);
+			String history = historyPatient.getText();
+			PatientModel user = new PatientModel(id, fullname, history );
+			patientController.edit(user);
 			MessageStatic.generateMessage("Patient updated");
 		}
 

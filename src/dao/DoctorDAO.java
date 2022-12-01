@@ -1,17 +1,21 @@
 package dao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import models.DoctorModel;
 
 public interface DoctorDAO {
-	public ResultSet getAllDoctors() throws SQLException;
 
-	public void addDoctor(String id, String name, String lastname, String password, String specialty, int price)
+	public void add(DoctorModel doctor)
 			throws SQLException;
 
-	public ResultSet getDoctorBySpecialty(String specialty) throws SQLException;
+	public List<DoctorModel> getBySpecialty(String specialty) throws SQLException;
 
-	public ResultSet getDoctor(String id) throws SQLException;
+	public List<DoctorModel> getByName(String fullName) throws SQLException;
+	
+	public DoctorModel getById(String id) throws SQLException;
+	
+	public DoctorModel login(String id, String password) throws SQLException;
 
-	public ResultSet getDoctor(String name, String lastname) throws SQLException;
 }

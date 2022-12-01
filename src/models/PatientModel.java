@@ -2,17 +2,13 @@ package models;
 
 public class PatientModel {
     private String id;
-    private String lastname;
-    private String name;
+    private String fullname;
     private String history;
-    private String gender;
 
-    public PatientModel(String id, String lastname, String name, String history, String gender) {
+    public PatientModel(String id, String fullname, String history) {
         this.id = id;
-        this.lastname = lastname;
-        this.name = name;
+        this.fullname = fullname;
         this.history = history;
-        this.gender = gender;
     }
 
     public String getId() {
@@ -23,22 +19,15 @@ public class PatientModel {
         this.id = id;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+   
     public String getHistory() {
         return history;
     }
@@ -47,13 +36,7 @@ public class PatientModel {
         this.history = history;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+  
     
     
 }

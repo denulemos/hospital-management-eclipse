@@ -50,6 +50,7 @@ public class GenerateReportAdmin extends javax.swing.JInternalFrame {
 		initComponents();
 	}
 
+	@SuppressWarnings("serial")
 	private void initComponents() {
 
 		fromLabel = new JLabel();
@@ -81,11 +82,11 @@ public class GenerateReportAdmin extends javax.swing.JInternalFrame {
 
 		resultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-		}, new String[] { "ID", "Patient", "Date", "Taken", "Price" }) {
-			boolean[] canEdit = new boolean[] { false, false, false, false, false };
+		}, new String[] { "ID", "Patient", "Date",  "Price" }) {
+			
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				return canEdit[columnIndex];
+				return false;
 			}
 		});
 		jScrollPane2.setViewportView(resultTable);
@@ -143,7 +144,7 @@ public class GenerateReportAdmin extends javax.swing.JInternalFrame {
 		doctorField = new JTextField();
 		doctorField.setColumns(10);
 
-		JLabel doctorLabel = new JLabel("Doctor");
+		JLabel doctorLabel = new JLabel("Doctor ID");
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.TRAILING)
@@ -351,7 +352,7 @@ public class GenerateReportAdmin extends javax.swing.JInternalFrame {
 			int amount = 0;
 			DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
 			model.setRowCount(0);
-			ResultSet results = schedController.getScheduleByDoctorByDates(doctor, from, to);
+			ResultSet results = schedController.getScheduleByDateandDoctor(doctor, from, to);
 			if (results.next()) {
 				do {
 					if (results.getString(5).equals("1")) {

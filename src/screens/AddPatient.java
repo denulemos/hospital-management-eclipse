@@ -8,35 +8,23 @@ import statics.MessageStatic;
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("serial")
 public class AddPatient extends javax.swing.JInternalFrame {
 
     PatientDAO patientController = new PatientDAOImp();
     
     // Components
     private JButton addPatientCancel, addPatientSubmit;
-    private JLabel nameLabel, historyLabel, lastnameLabel, idLabel;
+    private JLabel nameLabel, historyLabel, idLabel;
     private JScrollPane jScrollPane1;
     private JTextArea patientHistory;
     private JTextField patientId;
-    private JTextField patientLastname;
     private JTextField patientName;
-    private JRadioButton radioFemale;
-    private JRadioButton radioMan;
 
     public AddPatient() {
         initComponents();
     }
 
-
-    private String setGender () {
-        if (radioMan.isSelected()){
-            return "M";
-        }
-        
-        return "F";
-        
-    };
-    
     
     private void initComponents() {
 
@@ -49,7 +37,7 @@ public class AddPatient extends javax.swing.JInternalFrame {
         patientId.setToolTipText("Example: DNI ");
         idLabel = new JLabel();
 
-        nameLabel.setText("Name");
+        nameLabel.setText("Fullname");
         addPatientSubmit.setText("Add");
         idLabel.setText("ID");
         addPatientCancel.setText("Cancel");
@@ -72,18 +60,6 @@ public class AddPatient extends javax.swing.JInternalFrame {
         getContentPane().add(patientId);
         getContentPane().add(nameLabel);
         getContentPane().add(patientName);
-        lastnameLabel = new JLabel();
-        lastnameLabel.setText("Lastname");
-        getContentPane().add(lastnameLabel);
-        patientLastname = new JTextField();
-        patientLastname.setToolTipText("Example: Perez");
-        getContentPane().add(patientLastname);
-        radioMan = new JRadioButton();
-        radioMan.setText("Man");
-        getContentPane().add(radioMan);
-        radioFemale = new JRadioButton();
-        radioFemale.setText("Female");
-        getContentPane().add(radioFemale);
         historyLabel = new JLabel();
         historyLabel.setText("Medic History");
         getContentPane().add(historyLabel);
@@ -102,11 +78,10 @@ public class AddPatient extends javax.swing.JInternalFrame {
     }
 
     private void addPatientSubmitActionPerformed() {
-        String gender = setGender();
         
         try {
-        	PatientModel patient = new PatientModel(patientId.getText(), patientLastname.getText(), patientName.getText(), patientHistory.getText(), gender);
-        	patientController.addPatient(patient);
+        	PatientModel patient = new PatientModel(patientId.getText(), patientName.getText(), patientHistory.getText());
+        	patientController.add(patient);
             MessageStatic.generateMessage("The patient has been registered succesfully");
         } catch (Exception ex) {
         	MessageStatic.generateErrorMessage("Couldn't add new Patient: " + ex);

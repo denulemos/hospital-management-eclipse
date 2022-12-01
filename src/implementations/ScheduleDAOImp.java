@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import dao.ScheduleDAO;
 import models.ScheduleModel;
@@ -14,7 +15,9 @@ public class ScheduleDAOImp implements ScheduleDAO {
 
 	static Connection connection = ConnectionProvider.connection;
 
-	public ResultSet getAvailableScheduleBySpecialty(String specialty) throws SQLException {
+
+	@Override
+	public List<ScheduleModel> getAvailableBySpecialty(String specialty) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement
 				.executeQuery("SELECT * FROM schedule WHERE specialty LIKE '" + specialty + "%' AND patient IS NULL");
@@ -22,14 +25,16 @@ public class ScheduleDAOImp implements ScheduleDAO {
 		return result;
 	}
 
-	public ResultSet getScheduleByDoctor(String doctor) throws SQLException {
+	@Override
+	public List<ScheduleModel> getByDoctor(String doctor) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor + "%'");
 
 		return result;
 	}
 
-	public ResultSet getFreeScheduleByDoctor(String doctor) throws SQLException {
+	@Override
+	public List<ScheduleModel> getFreeByDoctor(String doctor) throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement
 				.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor + "%' AND patient IS NULL");
@@ -37,7 +42,8 @@ public class ScheduleDAOImp implements ScheduleDAO {
 		return result;
 	}
 
-	public ResultSet getScheduleByDoctorByDates(String doctor, LocalDateTime startDate, LocalDateTime endDate)
+	@Override
+	public List<ScheduleModel> getByDoctorAndDates(String doctor, LocalDateTime startDate, LocalDateTime endDate)
 			throws SQLException {
 		Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT * FROM schedule WHERE doctor LIKE '" + doctor
@@ -46,54 +52,38 @@ public class ScheduleDAOImp implements ScheduleDAO {
 		return result;
 	}
 
-	public ResultSet getScheduleByDoctorSingleDate(String string) throws SQLException {
-		Statement statement = connection.createStatement();
-		ResultSet result;
-
-		result = statement.executeQuery("SELECT * FROM schedule WHERE date LIKE '%" + string + "%'");
-
-		return result;
-	}
-
-	public ResultSet takeSchedule(String id) throws SQLException {
-		Statement statement = connection.createStatement();
-		ResultSet result;
-
-		result = statement.executeQuery("INSERT INTO schedule (`taken`) VALUES (1) WHERE id = " + id);
-
-		return result;
-	}
-
-	public void createSchedule(String doctor, LocalDateTime date, int price, String specialty) throws SQLException {
+	@Override
+	public void create(ScheduleModel schedule) throws SQLException {
 		Statement statement = connection.createStatement();
 
 		statement.executeUpdate("INSERT INTO schedule (`doctor`, `date`, `price`, `specialty`) VALUES ('" + doctor
 				+ "','" + date + "', " + price + ", '" + specialty + "');");
-
+		
 	}
 
-	public ResultSet getScheduleByPatient(String patient) throws SQLException {
-		Statement statement = connection.createStatement();
-		ResultSet result;
-
-		result = statement.executeQuery("SELECT * FROM schedule WHERE patient LIKE '" + patient + "%'");
-
-		return result;
-	}
-
-	public void updateSchedule(ScheduleModel schedule) throws SQLException {
+	@Override
+	public void update(ScheduleModel schedule) throws SQLException {
 		Statement statement = connection.createStatement();
 		statement.executeUpdate("UPDATE `schedule` SET `patient` =" + schedule.getPatient() + ", TAKEN = '" + schedule.getTaken() + "', PRICE = "
 				+ schedule.getPrice() + " WHERE (`id` = " + schedule.getId() + ");");
+		
 	}
 
-	public ResultSet getScheduleByDateandDoctor(LocalDateTime date, String doctor) throws SQLException {
-		Statement statement = connection.createStatement();
-		ResultSet result;
+	@Override
+	public ScheduleModel get(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		result = statement
-				.executeQuery("SELECT * FROM schedule WHERE date = '" + date + "%' and doctor = '" + doctor + "'");
+	@Override
+	public List<ScheduleModel> getScheduleByDateandDoctor(LocalDateTime date, String doctor) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		return result;
+	@Override
+	public List<ScheduleModel> getScheduleByPatient(String patient) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

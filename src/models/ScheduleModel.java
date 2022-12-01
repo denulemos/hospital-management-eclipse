@@ -2,14 +2,13 @@ package models;
 
 public class ScheduleModel {
     private int id, price;
-    private String doctor, patient, date, taken, specialty;
+    private String doctor, patient, date, specialty;
 
-    public ScheduleModel(int id, String doctor, String patient, String date, String taken , String specialty, int price) {
+    public ScheduleModel(int id, String doctor, String patient, String date,  String specialty, int price) {
         this.id = id;
         this.doctor = doctor;
         this.patient = patient;
         this.date = date;
-        this.taken = taken;
         this.specialty = specialty;
         this.price = price;
     }
@@ -52,14 +51,6 @@ public class ScheduleModel {
 
 	public void setDate(String date) {
 		this.date = date;
-	}
-
-	public String getTaken() {
-		return taken;
-	}
-
-	public void setTaken(String taken) {
-		this.taken = taken;
 	}
 
 	public String getSpecialty() {

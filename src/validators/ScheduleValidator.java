@@ -20,10 +20,4 @@ public class ScheduleValidator {
         return;
     }
     
-    public static void validateTake(String patient, String take) throws CantTakeAppointmentWithoutPatientException, SQLException {
-        if (patient == null && take.equals('1')) {
-            throw new CantTakeAppointmentWithoutPatientException();
-        }
-        return;
-    }
 }
